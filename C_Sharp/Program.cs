@@ -6,8 +6,8 @@ var princess = new Princess(hall, friend);
 int happiness = princess.FindHusband();
 
 using StreamWriter file = new("result.txt");
-file.WriteLine("Princess had " + hall.Visited.Count + " dates:");
-foreach (var contender in hall.Visited)
+file.WriteLine("Princess had " + princess.Visited.Count + " dates:");
+foreach (var contender in princess.Visited)
 {
     file.WriteLine(contender.Name + " " + contender.Score);
 }

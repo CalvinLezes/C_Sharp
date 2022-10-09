@@ -17,6 +17,7 @@ namespace SmartPrincess
         Hall hall;
 
         Friend friend;
+        public List<Contender> Visited { get; } = new();
 
         public Princess(Hall hall, Friend friend)
         {
@@ -26,12 +27,12 @@ namespace SmartPrincess
 
         public void HaveADate(Contender contender)
         {
-            var visited = hall.Visited;
-            if (friend.Cmp(contender, visited))
+            if (friend.Cmp(contender, Visited))
             {
                 happiness = contender.Score;
                 _iAmSingle = false;
             }
+            
         }
 
         public int FindHusband()
@@ -43,12 +44,13 @@ namespace SmartPrincess
                     happiness = 10;
                     return happiness;
                 }
-                Contender contender = hall.GetContender();
+                Contender contender = hall.GetNextContender();
                 if (numContenders > 36)
                 {
                     HaveADate(contender);
                 }
                 numContenders++;
+                Visited.Add(contender);
             }
 
             return happiness;

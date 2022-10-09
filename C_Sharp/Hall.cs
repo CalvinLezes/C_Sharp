@@ -11,8 +11,6 @@ namespace SmartPrincess
     {
         private List<Contender> contenders = new();
 
-        public List<Contender> Visited { get; } = new();
-
         public void LoadContenders()
         {
             var names = new List<Contender>();
@@ -32,10 +30,9 @@ namespace SmartPrincess
             contenders = names.OrderBy(item => rnd.Next()).ToList();
         }
 
-        public Contender GetContender()
+        public Contender GetNextContender()
         {
-            Contender next = contenders.First();
-            Visited.Add(next);
+            var next = contenders.First();
             contenders.Remove(next);
             return next;
         }
