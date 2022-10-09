@@ -10,7 +10,7 @@ namespace SmartPrincess
     class Hall
     {
         private List<Contender> contenders = new();
-
+        public List<Contender> Visited { get; } = new();
         public void LoadContenders()
         {
             var names = new List<Contender>();
