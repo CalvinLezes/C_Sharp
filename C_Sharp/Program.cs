@@ -1,9 +1,9 @@
 ﻿using SmartPrincess;
-var princess = new Princess();
 var hall = new Hall();
 hall.LoadContenders();
 var friend = new Friend();
-int happiness = princess.FindHusband(hall, friend);
+var princess = new Princess(hall, friend);
+int happiness = princess.FindHusband();
 
 using StreamWriter file = new("result.txt");
 file.WriteLine("Princess had " + hall.Visited.Count + " dates:");
