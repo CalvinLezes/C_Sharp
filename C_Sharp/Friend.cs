@@ -8,7 +8,7 @@ namespace SmartPrincess
 {
     class Friend
     {
-        public bool Cmp(Contender current, List<Contender> visited)
+        public bool CompareContenders(Contender current, List<Contender> visited)
         {
             foreach(var previous in visited)
             {

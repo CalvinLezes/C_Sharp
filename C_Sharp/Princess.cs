@@ -25,7 +25,7 @@ namespace SmartPrincess
 
         public void HaveADate(Contender contender)
         {
-            if (friend.Cmp(contender, hall.Visited))
+            if (friend.CompareContenders(contender, hall.Visited))
             {
                 happiness = contender.Score;
                 _iAmSingle = false;
