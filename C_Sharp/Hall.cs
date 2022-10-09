@@ -29,14 +29,12 @@ namespace SmartPrincess
             var rnd = new Random();
             contenders = names.OrderBy(item => rnd.Next()).ToList();
         }
-
         public Contender GetNextContender()
         {
             var next = contenders.First();
             contenders.Remove(next);
             return next;
         }
-
         public bool IsEmpty()
         {
             return contenders.Count == 0;

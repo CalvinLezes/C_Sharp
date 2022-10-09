@@ -18,10 +18,9 @@ namespace SmartPrincess
             this.hall = hall;
             this.friend = friend;
         }
-
         public void HaveADate(Contender contender)
         {
-            if(hall.Visited.Find(previous => friend.CompareContenders(contender, previous))==null)
+            if (hall.Visited.Find(previous => friend.CompareContenders(contender, previous)) == null)
             {
                 husband = contender;
                 _iAmSingle = false;
@@ -42,6 +41,4 @@ namespace SmartPrincess
             }
             return husband;
         }
-
     }
-}

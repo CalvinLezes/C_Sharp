@@ -21,7 +21,6 @@ namespace SmartPrincess
                 throw new Exception("Trying to compare contenders, who princess didn't meet yet");
             }
             return current.Score < previous.Score;
-            
         }
     }
 }

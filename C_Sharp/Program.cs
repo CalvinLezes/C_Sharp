@@ -3,9 +3,7 @@ var hall = new Hall();
 hall.LoadContenders();
 var friend = new Friend(hall);
 var princess = new Princess(hall, friend);
-
 var husband = princess.FindHusband();
-
 using StreamWriter file = new("result.txt");
 file.WriteLine("Princess had " + hall.Visited.Count + " dates:");
 foreach (var contender in hall.Visited)
