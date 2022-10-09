@@ -13,21 +13,20 @@ namespace SmartPrincess
 
         public List<Contender> Visited { get; } = new();
 
-        public Hall()
+        public void LoadContenders()
         {
             var names = new List<Contender>();
             string? name;
-            int score = 1;
             using StreamReader reader = new("Names.txt");
-            while((name = reader.ReadLine())!= null)
+            for (int i = 0; i < 100; i++)
             {
+                name = reader.ReadLine();
                 Contender contender = new()
                 {
                     Name = name,
-                    Score = score
+                    Score = i,
                 };
                 names.Add(contender);
-                score++;
             }
             var rnd = new Random();
             contenders = names.OrderBy(item => rnd.Next()).ToList();

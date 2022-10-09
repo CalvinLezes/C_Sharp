@@ -1,6 +1,7 @@
 ﻿using SmartPrincess;
 var princess = new Princess();
 var hall = new Hall();
+hall.LoadContenders();
 var friend = new Friend();
 int happiness = princess.FindHusband(hall, friend);
 
