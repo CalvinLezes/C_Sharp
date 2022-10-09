@@ -8,11 +8,11 @@ namespace SmartPrincess
 {
     class Princess
     {
-        bool iAmSingle = true;
+        private bool _iAmSingle = true;
 
         int happiness = 0;
 
-        int num_contenders = 0;
+        int numContenders = 0;
 
         public void HaveADate(Contender contender, Friend friend, List<Contender> visited)
         { 
