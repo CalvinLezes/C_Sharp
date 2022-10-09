@@ -8,15 +8,11 @@ namespace SmartPrincess
 {
     class Princess
     {
+        private const int numberOfContedersToSkip = 36;
         private bool _iAmSingle = true;
-
-        int happiness = 0;
-
-        int numContenders = 0;
-
-        Hall hall;
-
-        Friend friend;
+        private Contender? husband = null;
+        private Hall hall;
+        private Friend friend;
         public Princess(Hall hall, Friend friend)
         {
             this.hall = hall;
@@ -27,30 +23,24 @@ namespace SmartPrincess
         {
             if(hall.Visited.Find(previous => friend.CompareContenders(contender, previous, hall.Visited))==null)
             {
-                happiness = contender.Score;
+                husband = contender;
                 _iAmSingle = false;
-
             }
         }
-        public int FindHusband()
+        public Contender? FindHusband()
         {
-            while (_iAmSingle == true)
+            var numContenders = 0;
+            while (_iAmSingle == true && !hall.IsEmpty())
             {
-                if (hall.IsEmpty())
-                {
-                    happiness = 10;
-                    return happiness;
-                }
                 Contender contender = hall.GetNextContender();
-                if (numContenders > 36)
+                if (numContenders > numberOfContedersToSkip)
                 {
                     HaveADate(contender);
                 }
                 numContenders++;
                 hall.Visited.Add(contender);
             }
-
-            return happiness;
+            return husband;
         }
 
     }
