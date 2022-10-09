@@ -8,9 +8,15 @@ namespace SmartPrincess
 {
     class Friend
     {
-        public bool CompareContenders(Contender current, Contender previous, List<Contender> visited)
+        private Hall hall;
+
+        public Friend(Hall hall)
         {
-            if (!visited.Contains(previous))
+            this.hall = hall;
+        }
+        public bool CompareContenders(Contender current, Contender previous)
+        {
+            if (!hall.Visited.Contains(current) || !hall.Visited.Contains(previous))
             {
                 throw new Exception("Trying to compare contenders, who princess didn't meet yet");
             }

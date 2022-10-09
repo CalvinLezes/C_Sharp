@@ -21,7 +21,7 @@ namespace SmartPrincess
 
         public void HaveADate(Contender contender)
         {
-            if(hall.Visited.Find(previous => friend.CompareContenders(contender, previous, hall.Visited))==null)
+            if(hall.Visited.Find(previous => friend.CompareContenders(contender, previous))==null)
             {
                 husband = contender;
                 _iAmSingle = false;
@@ -33,12 +33,12 @@ namespace SmartPrincess
             while (_iAmSingle == true && !hall.IsEmpty())
             {
                 Contender contender = hall.GetNextContender();
+                hall.Visited.Add(contender);
                 if (numContenders > numberOfContedersToSkip)
                 {
                     HaveADate(contender);
                 }
                 numContenders++;
-                hall.Visited.Add(contender);
             }
             return husband;
         }
