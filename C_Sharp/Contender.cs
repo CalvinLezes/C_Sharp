@@ -9,9 +9,7 @@ namespace SmartPrincess
 {
     class Contender
     {
-        string name;
-        int score;
-        public int Score { get => score; set => score = value; }
-        public string Name { get => name; set => name = value; }
+        public int Score { get; set; }
+        public string Name { get; set ; }
     }
 }
