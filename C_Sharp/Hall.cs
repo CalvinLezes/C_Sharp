@@ -9,7 +9,7 @@ namespace SmartPrincess
 {
     class Hall
     {
-        public List<Contender> contenders = new ();
+        private List<Contender> contenders = new();
 
         public List<Contender> Visited { get; } = new();
 
