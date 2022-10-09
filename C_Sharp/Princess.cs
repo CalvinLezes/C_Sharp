@@ -42,3 +42,4 @@ namespace SmartPrincess
             return husband;
         }
     }
+}

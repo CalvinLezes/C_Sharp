@@ -8,14 +8,14 @@ using StreamWriter file = new("result.txt");
 file.WriteLine("Princess had " + hall.Visited.Count + " dates:");
 foreach (var contender in hall.Visited)
 {
-    file.WriteLine(contender.Name + " " + contender.Score);
+    file.WriteLine($"{contender.Name} {contender.Score}");
 };
 if(husband != null)
 {
-    file.WriteLine("\nHow happy is the princess: " + husband.Score);
+    file.WriteLine($"\nHow happy is the princess: {husband.Score}");
 }
 else
 {
     file.WriteLine("\nPrincess didn't choose a husband");
-    file.WriteLine("\nHow happy is the princess: " + 10);
+    file.WriteLine("\nHow happy is the princess: 10");
 }
