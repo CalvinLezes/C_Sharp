@@ -25,14 +25,13 @@ namespace SmartPrincess
 
         public void HaveADate(Contender contender)
         {
-            if (friend.CompareContenders(contender, hall.Visited))
+            if(hall.Visited.Find(previous => friend.CompareContenders(contender, previous, hall.Visited))==null)
             {
                 happiness = contender.Score;
                 _iAmSingle = false;
-            }
-            
-        }
 
+            }
+        }
         public int FindHusband()
         {
             while (_iAmSingle == true)

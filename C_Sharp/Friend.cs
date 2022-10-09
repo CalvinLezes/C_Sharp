@@ -8,17 +8,14 @@ namespace SmartPrincess
 {
     class Friend
     {
-        public bool CompareContenders(Contender current, List<Contender> visited)
+        public bool CompareContenders(Contender current, Contender previous, List<Contender> visited)
         {
-            foreach(var previous in visited)
+            if (!visited.Contains(previous))
             {
-                if (current.Score < previous.Score)
-                {
-                    return false;
-                }
-                
+                throw new Exception("Trying to compare contenders, who princess didn't meet yet");
             }
-            return true;
+            return current.Score >= previous.Score;
+            
         }
     }
 }

@@ -3,6 +3,7 @@ var hall = new Hall();
 hall.LoadContenders();
 var friend = new Friend();
 var princess = new Princess(hall, friend);
+
 int happiness = princess.FindHusband();
 
 using StreamWriter file = new("result.txt");
