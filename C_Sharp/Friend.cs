@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartPrincess
 {
-    class Friend
+    class Friend:IFriend
     {
         private Hall hall;
 

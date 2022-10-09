@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartPrincess
 {
-    class Hall
+    class Hall: IHall
     {
         private List<Contender> contenders = new();
         public List<Contender> Visited { get; } = new();
