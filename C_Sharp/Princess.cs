@@ -32,7 +32,7 @@ namespace SmartPrincess
             var numContenders = 0;
             while (_iAmSingle == true && !hall.IsEmpty())
             {
-                Contender contender = hall.GetNextContender();
+                var contender = hall.GetNextContender();
                 hall.Visited.Add(contender);
                 if (numContenders > numberOfContedersToSkip)
                 {
