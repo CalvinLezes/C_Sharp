@@ -23,18 +23,25 @@ class Hall: IHall
     /// </summary>
     public void CreateContendersList()
     {
+        const int numberOfContenders = 100;
+        var contendersAdded = 0;
+        var currentScore = 1;
         var names = new List<Contender>();
-        string? name;
         using StreamReader reader = new("Names.txt");
-        for (int i = 1; i < 101; i++)
+        while(reader.ReadLine() is { } name && contendersAdded != numberOfContenders)
         {
-            name = reader.ReadLine();
             Contender contender = new()
             {
                 Name = name,
-                Score = i,
+                Score = currentScore,
             };
             names.Add(contender);
+            contendersAdded++;
+            currentScore++;
+        }
+        if (contendersAdded < numberOfContenders)
+        {
+            throw new Exception("Added less then 100 contenders, not enough names in Names.txt");
         }
         var rnd = new Random();
         _contenders = names.OrderBy(item => rnd.Next()).ToList();
