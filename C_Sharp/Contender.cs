@@ -8,11 +8,11 @@
         /// <summary>
         /// Score of a contender (from 1 to 100)
         /// </summary>
-        public int Score { get; set; }
+        public int Score { get; init; }
 
         /// <summary>
         /// Name of a contender
         /// </summary>
-        public string Name { get; set ; }
+        public string Name { get; init; }
     }
 }
