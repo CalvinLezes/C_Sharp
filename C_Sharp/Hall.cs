@@ -1,25 +1,25 @@
 ﻿namespace C_Sharp;
 
 /// <summary>
-/// This class represents Hall, where all contestants wait for their turn, 
+/// Hall, where all contestants wait for their turn, 
 /// and where they return after a date with the Princess 
 /// </summary>
 class Hall: IHall
 {
     /// <summary>
-    /// This field is a list of contenders, who wait for their turn to meet the Princess
+    /// List of contenders, who wait for their turn to meet the Princess
     /// </summary>
     private List<Contender> _contenders = new();
 
     /// <summary>
-    /// This field is a list of contenders, who already met the Princess
+    /// List of contenders, who already met the Princess
     /// </summary>
     public List<Contender> Visited { get; } = new();
 
     /// <summary>
-    /// This method loads 100 names from a file, and creates a list of contenders
+    /// Load names of contenders from a file, and create a list of contenders
     /// </summary>
-    public void LoadContenders()
+    public void CreateContendersList()
     {
         var names = new List<Contender>();
         string? name;
@@ -39,7 +39,7 @@ class Hall: IHall
     }
 
     /// <summary>
-    /// This method gets the next contender to go on a date with the Princess
+    /// Get the next contender to go on a date with the Princess
     /// </summary>
     /// <returns>Next contender</returns>
     public Contender GetNextContender()
@@ -50,9 +50,9 @@ class Hall: IHall
     }
 
     /// <summary>
-    /// This method is used to find out if hall is empty or not
+    /// Check if hall is empty or not
     /// </summary>
-    /// <returns>A boolean</returns>
+    /// <returns>True if the hall is empty, else false</returns>
     public bool IsEmpty()
     {
         return _contenders.Count == 0;

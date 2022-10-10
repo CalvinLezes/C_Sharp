@@ -1,7 +1,7 @@
 ﻿using C_Sharp;
 
 var hall = new Hall();
-hall.LoadContenders();
+hall.CreateContendersList();
 var friend = new Friend(hall);
 var princess = new Princess(hall, friend);
 var husband = princess.FindHusband();

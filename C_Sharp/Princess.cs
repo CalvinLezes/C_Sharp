@@ -1,7 +1,7 @@
 ﻿namespace C_Sharp
 {
     /// <summary>
-    /// This class represents the Princess who is trying to find a husband.
+    /// Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
     /// Her happiness will be determined by a score of a contender she chose to be her husband,
     /// Princess doesn't have access to contenders' scores, but she can ask her Friend to tell her
@@ -16,17 +16,17 @@
         private const int NumberOfContendersToSkip = 36;
 
         /// <summary>
-        /// This field is a husband, who the Princess chose
+        /// Husband, who the Princess chose
         /// </summary>
         private Contender? _husband;
 
         /// <summary>
-        /// This field is the hall, where contenders are.
+        /// Hall, where contenders are.
         /// </summary>
         private readonly Hall _hall;
 
         /// <summary>
-        /// This field is a friend, who Princess uses for help
+        /// Friend, who Princess uses for help
         /// </summary>
         private readonly Friend _friend;
 
@@ -37,10 +37,7 @@
         }
 
         /// <summary>
-        /// This method is a princess having a date with a contender,
-        /// she asks her friend to compare this contender with all contenders
-        /// that she already seen and only if he is better then everyone
-        /// she decides to marry him.
+        /// Princess has a date with a contender, and decides if she marries him or not.
         /// </summary>
         /// <param name="contender"></param>
         public void HaveADate(Contender contender)
@@ -52,26 +49,22 @@
         }
 
         /// <summary>
-        /// This method is the Princess trying to find a husband.
-        /// She asks a hall to give her the next contender,
-        /// then this contender adds to visited list,
-        /// and then they have a date.
-        /// If the Princess decided to marry a contender or if hall is empty, then the search stops.
-        /// The Princess skips first 100/e contenders.
+        /// Princess is trying to find a husband.
+        /// She is having dates with contenders until she fins a husband.
         /// </summary>
         /// <returns>The husband</returns>
         public Contender? FindHusband()
         {
-            var numContenders = 0;
+            var numberOfDates = 0;
             while (_husband == null && !_hall.IsEmpty())
             {
                 var contender = _hall.GetNextContender();
                 _hall.Visited.Add(contender);
-                if (numContenders > NumberOfContendersToSkip)
+                if (numberOfDates > NumberOfContendersToSkip) //Princess skips first 100/e contenders
                 {
                     HaveADate(contender);
                 }
-                numContenders++;
+                numberOfDates++;
             }
             return _husband;
         }
