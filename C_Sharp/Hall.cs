@@ -16,6 +16,8 @@ class Hall: IHall
     /// </summary>
     public List<Contender> Visited { get; } = new();
 
+    private Contender? _husband;
+
     /// <summary>
     /// Load names of contenders from a file, and create a list of contenders
     /// </summary>
@@ -56,5 +58,23 @@ class Hall: IHall
     public bool IsEmpty()
     {
         return _contenders.Count == 0;
+    }
+
+    /// <summary>
+    /// Set husband to a contender, who Princess chose
+    /// </summary>
+    /// <param name="husband"></param>
+    public void SetHusband(Contender husband)
+    {
+        _husband = husband;
+    }
+
+    /// <summary>
+    /// Get husband's score
+    /// </summary>
+    /// <returns>Husbands score</returns>
+    public int GetHusbandScore()
+    {
+        return _husband?.Score ?? 0; //If the Princess didn't choose a husband returns 0
     }
 }

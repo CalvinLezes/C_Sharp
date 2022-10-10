@@ -18,7 +18,7 @@
         /// <summary>
         /// Husband, who the Princess chose
         /// </summary>
-        private Contender? _husband;
+        private bool _iAmSingle = true;
 
         /// <summary>
         /// Hall, where contenders are.
@@ -44,7 +44,8 @@
         {
             if (_hall.Visited.Find(previous => _friend.CompareContenders(contender, previous)) == null)
             {
-                _husband = contender;
+                _hall.SetHusband(contender);
+                _iAmSingle = false;
             }
         }
 
@@ -52,11 +53,11 @@
         /// Princess is trying to find a husband.
         /// She is having dates with contenders until she fins a husband.
         /// </summary>
-        /// <returns>The husband</returns>
-        public Contender? FindHusband()
+        /// <returns></returns>
+        public void FindHusband()
         {
             var numberOfDates = 0;
-            while (_husband == null && !_hall.IsEmpty())
+            while (_iAmSingle && !_hall.IsEmpty())
             {
                 var contender = _hall.GetNextContender();
                 _hall.Visited.Add(contender);
@@ -66,7 +67,20 @@
                 }
                 numberOfDates++;
             }
-            return _husband;
+        }
+
+        /// <summary>
+        /// Get Princess' happiness score
+        /// </summary>
+        /// <returns>Happiness score</returns>
+        public int GetHappiness()
+        {
+            var score = _hall.GetHusbandScore();
+            if (score == 0)
+            {
+                return 10; //If the Princess didn't choose a husband, her happiness score is 10
+            }
+            return score < 51 ? 0 : score; //If contender's score is less then 51, her happiness is 0
         }
     }
 }
