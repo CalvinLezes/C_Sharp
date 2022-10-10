@@ -12,7 +12,9 @@ foreach (var contender in hall.Visited)
 };
 if(husband != null)
 {
-    file.WriteLine($"\nHow happy is the princess: {husband.Score}");
+    var happiness = husband.Score < 51 ?  0 : husband.Score;
+    file.WriteLine($"\nHow happy is the princess: {happiness}");
+    
 }
 else
 {
