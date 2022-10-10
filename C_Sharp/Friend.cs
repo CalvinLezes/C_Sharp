@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartPrincess
+﻿namespace C_Sharp
 {
     /// <summary>
     /// This class represents the Friend, who compares two contestants for the Princess,
     /// but can only compare two contestants, who Princess already met.
     /// </summary>
-    class Friend:IFriend
+    class Friend: IFriend
     {
         /// <summary>
         /// This field is the hall, where the friend asks if the princess met a contender or not.
@@ -21,6 +15,7 @@ namespace SmartPrincess
         {
             this.hall = hall;
         }
+
         /// <summary>
         /// This method compares two contestants, and checks if they both already visited the Princess
         /// </summary>

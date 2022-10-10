@@ -1,4 +1,5 @@
-﻿using SmartPrincess;
+﻿using C_Sharp;
+
 var hall = new Hall();
 hall.LoadContenders();
 var friend = new Friend(hall);
@@ -9,7 +10,8 @@ file.WriteLine("Princess had " + hall.Visited.Count + " dates:");
 foreach (var contender in hall.Visited)
 {
     file.WriteLine($"{contender.Name} {contender.Score}");
-};
+}
+
 if(husband != null)
 {
     var happiness = husband.Score < 51 ?  0 : husband.Score;

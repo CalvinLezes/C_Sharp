@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartPrincess
+﻿namespace C_Sharp
 {
     /// <summary>
     /// This class represents the Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
-    /// Her happiness will be determened by a score of a contender she chose to be her husband,
+    /// Her happiness will be determined by a score of a contender she chose to be her husband,
     /// Princess doesn't have access to contenders' scores, but she can ask her Friend to tell her
     /// if one contender is better then the other.
     /// If Princess doesn't choose anybody, her level of happiness will be 10.
@@ -19,24 +13,29 @@ namespace SmartPrincess
         /// <summary>
         /// Princess will skip first 100/e contestants
         /// </summary>
-        private const int numberOfContedersToSkip = 36;
+        private const int NumberOfContendersToSkip = 36;
+
         /// <summary>
         /// This field is a husband, who the Princess chose
         /// </summary>
-        private Contender? husband = null;
+        private Contender? _husband;
+
         /// <summary>
-        /// This field is the hall, where conteders are.
+        /// This field is the hall, where contenders are.
         /// </summary>
-        private Hall hall;
+        private readonly Hall _hall;
+
         /// <summary>
         /// This field is a friend, who Princess uses for help
         /// </summary>
-        private Friend friend;
+        private readonly Friend _friend;
+
         public Princess(Hall hall, Friend friend)
         {
-            this.hall = hall;
-            this.friend = friend;
+            this._hall = hall;
+            this._friend = friend;
         }
+
         /// <summary>
         /// This method is a princess having a date with a contender,
         /// she asks her friend to compare this contender with all contenders
@@ -46,11 +45,12 @@ namespace SmartPrincess
         /// <param name="contender"></param>
         public void HaveADate(Contender contender)
         {
-            if (hall.Visited.Find(previous => friend.CompareContenders(contender, previous)) == null)
+            if (_hall.Visited.Find(previous => _friend.CompareContenders(contender, previous)) == null)
             {
-                husband = contender;
+                _husband = contender;
             }
         }
+
         /// <summary>
         /// This method is the Princess trying to find a husband.
         /// She asks a hall to give her the next contender,
@@ -63,17 +63,17 @@ namespace SmartPrincess
         public Contender? FindHusband()
         {
             var numContenders = 0;
-            while (husband == null && !hall.IsEmpty())
+            while (_husband == null && !_hall.IsEmpty())
             {
-                var contender = hall.GetNextContender();
-                hall.Visited.Add(contender);
-                if (numContenders > numberOfContedersToSkip)
+                var contender = _hall.GetNextContender();
+                _hall.Visited.Add(contender);
+                if (numContenders > NumberOfContendersToSkip)
                 {
                     HaveADate(contender);
                 }
                 numContenders++;
             }
-            return husband;
+            return _husband;
         }
     }
 }

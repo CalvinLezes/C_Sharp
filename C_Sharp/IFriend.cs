@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace C_Sharp;
 
-namespace SmartPrincess
+interface IFriend
 {
-    interface IFriend
-    {
-        public bool CompareContenders(Contender current, Contender previous);
-    }
+    public bool CompareContenders(Contender current, Contender previous);
 }

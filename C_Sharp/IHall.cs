@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace C_Sharp;
 
-namespace SmartPrincess
+interface IHall
 {
-    interface IHall
-    {
-        public List<Contender> Visited { get; }
-        public void LoadContenders();
-        public Contender GetNextContender();
-        public bool IsEmpty();
-    }
+    public List<Contender> Visited { get; }
+    public void LoadContenders();
+    public Contender GetNextContender();
+    public bool IsEmpty();
 }
