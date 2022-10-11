@@ -1,6 +1,7 @@
 ﻿namespace C_Sharp;
 /// <summary>
-/// Hall
+/// Hall, where all contestants wait for their turn, 
+/// and where they return after a date with the Princess 
 /// </summary>
 interface IHall
 {

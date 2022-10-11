@@ -8,11 +8,11 @@
         /// <summary>
         /// Hall, where the friend asks if the princess met a contender or not.
         /// </summary>
-        private Hall hall;
+        private readonly Hall _hall;
 
         public Friend(Hall hall)
         {
-            this.hall = hall;
+            _hall = hall;
         }
 
         /// <summary>
@@ -24,7 +24,8 @@
         /// <exception cref="Exception"></exception>
         public bool CompareContenders(Contender current, Contender previous)
         {
-            if (!hall.Visited.Contains(current) || !hall.Visited.Contains(previous))
+            if (_hall.Visited.Find(contender => contender.Equals(current))==null 
+                || _hall.Visited.Find(contender => contender.Equals(previous)) == null)
             {
                 throw new Exception("Trying to compare contenders, who princess didn't meet yet");
             }
