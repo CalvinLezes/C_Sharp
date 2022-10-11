@@ -11,8 +11,14 @@ class Hall: IHall
     /// </summary>
     private List<Contender> _contenders = new();
 
+    /// <summary>
+    /// Contender, who the Princess chose to marry
+    /// </summary>
     private Contender? _husband;
 
+    /// <summary>
+    /// Princess' friend, who remembers who visited princess
+    /// </summary>
     private readonly Friend _friend;
 
     public Hall(Friend friend)
@@ -52,10 +58,10 @@ class Hall: IHall
     }
 
     /// <summary>
-    /// Get the next contender to visit the Princess
+    /// Get the next contender to visit the Princess and tell friend about it
     /// </summary>
     /// <returns>Next contender's name</returns>
-    public string GetNextContenderToVisitPrincess()
+    public string GetNextContenderAndTellFriendAboutIt()
     {
         var next = _contenders.First();
         _friend.AddContenderInVisited(next);
@@ -87,7 +93,7 @@ class Hall: IHall
     /// <summary>
     /// Get husband's score
     /// </summary>
-    /// <returns>Husbands score</returns>
+    /// <returns>Husbands score, null if no husband</returns>
     public int? GetHusbandScore()
     {
         return _husband?.Score ?? null; 

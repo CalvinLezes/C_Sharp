@@ -11,20 +11,20 @@ interface IHall
     public void CreateContendersList();
 
     /// <summary>
-    /// Get the next contender to visit the Princess
+    /// Get the next contender to visit the Princess and tell friend about it
     /// </summary>
-    /// <returns></returns>
-    public string GetNextContenderToVisitPrincess();
+    /// <returns>Next contender's name</returns>
+    public string GetNextContenderAndTellFriendAboutIt();
 
     /// <summary>
     /// Check if the hall is empty
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True, if hall is empty, else false</returns>
     public bool IsEmpty();
 
     /// <summary>
     /// Get husband's score
     /// </summary>
-    /// <returns>Husband's score</returns>
+    /// <returns>Husband's score, null if no husband</returns>
     public int? GetHusbandScore();
 }

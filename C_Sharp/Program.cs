@@ -2,12 +2,14 @@
 
 var friend = new Friend();
 var hall = new Hall(friend);
+var princess = new Princess(hall, friend);
+
 hall.CreateContendersList();
 
-var princess = new Princess(hall, friend);
 princess.FindHusband();
+
 using StreamWriter file = new("result.txt");
-var visitedNames = princess.GetVisitedNames();
+var visitedNames = princess.GetVisitedContendersNames();
 file.WriteLine("Princess had " + visitedNames.Count + " dates:");
 foreach (var contender in visitedNames)
 {

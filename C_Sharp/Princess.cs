@@ -1,24 +1,13 @@
-﻿using System.ComponentModel.Design;
-
-namespace C_Sharp
+﻿namespace C_Sharp
 {
     /// <summary>
     /// Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
-    /// Her happiness will be determined by a score of a contender she chose to be her husband,
-    /// Princess doesn't have access to contenders' scores, but she can ask her Friend to tell her
-    /// if one contender is better then the other.
-    /// If Princess doesn't choose anybody, her level of happiness will be 10.
     /// </summary>
     class Princess
     {
         /// <summary>
-        /// Princess will skip first 100/e contestants
-        /// </summary>
-        private const int NumberOfContendersToSkip = 36;
-
-        /// <summary>
-        /// Husband, who the Princess chose
+        /// If the Princess still single or not
         /// </summary>
         private bool _iAmSingle = true;
 
@@ -32,6 +21,9 @@ namespace C_Sharp
         /// </summary>
         private readonly Friend _friend;
 
+        /// <summary>
+        /// List of names of contenders who visited the Princess
+        /// </summary>
         private readonly List<string> _namesOfVisited = new();
 
         public Princess(Hall hall, Friend friend)
@@ -44,6 +36,7 @@ namespace C_Sharp
         /// Princess has a date with a contender, and decides if she marries him or not.
         /// </summary>
         /// <param name="contenderName"></param>
+        /// <returns>True if she marries this contender, false if not</returns>
         public bool HaveADate(string contenderName)
         {
             if (_namesOfVisited.Find(previousName => _friend.CompareContenders(contenderName, previousName)) == null)
@@ -58,22 +51,21 @@ namespace C_Sharp
         /// Princess is trying to find a husband.
         /// She is having dates with contenders until she fins a husband.
         /// </summary>
-        /// <returns></returns>
         public void FindHusband()
         {
+            //Princess skips first 100/e contenders
+            const int numberOfContendersToSkip = 36;
             var numberOfDates = 0;
             while (_iAmSingle && !_hall.IsEmpty())
             {
-                var contenderName = _hall.GetNextContenderToVisitPrincess();
+                var contenderName = _hall.GetNextContenderAndTellFriendAboutIt();
                 _namesOfVisited.Add(contenderName);
                 var doIMarryHim = false;
-                //Princess skips first 100/e contenders
-                if (numberOfDates > NumberOfContendersToSkip) 
+                if (numberOfDates > numberOfContendersToSkip) 
                 {
                     doIMarryHim = HaveADate(contenderName);
                 }
                 _hall.ReturnContender(doIMarryHim, contenderName);
-                
                 numberOfDates++;
             }
         }
@@ -105,7 +97,11 @@ namespace C_Sharp
             return (int)score;
 
         }
-        public List<string> GetVisitedNames()
+        /// <summary>
+        /// Get list of visited contenders' names
+        /// </summary>
+        /// <returns>List of visited contenders' names</returns>
+        public List<string> GetVisitedContendersNames()
         {
             return _namesOfVisited;
         }

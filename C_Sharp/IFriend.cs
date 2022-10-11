@@ -5,6 +5,10 @@
 /// </summary>
 interface IFriend
 {
+    /// <summary>
+    /// Add contender to visited list
+    /// </summary>
+    /// <param name="contender"></param>
     public void AddContenderInVisited(Contender contender);
 
     /// <summary>

@@ -6,10 +6,14 @@
     class Friend: IFriend
     {
         /// <summary>
-        /// Hall, where the friend asks if the princess met a contender or not.
+        /// List of contenders, who already met the Princess
         /// </summary>
         private readonly List<Contender> _visited = new();
 
+        /// <summary>
+        /// Add contender to visited list
+        /// </summary>
+        /// <param name="contender"></param>
         public void AddContenderInVisited(Contender contender)
         {
             _visited.Add(contender);
