@@ -1,16 +1,19 @@
 ﻿using C_Sharp;
 
-var hall = new Hall();
+var friend = new Friend();
+var hall = new Hall(friend);
 hall.CreateContendersList();
-var friend = new Friend(hall);
+
 var princess = new Princess(hall, friend);
 princess.FindHusband();
 using StreamWriter file = new("result.txt");
-file.WriteLine("Princess had " + hall.Visited.Count + " dates:");
-foreach (var contender in hall.Visited)
+var visitedNames = princess.GetVisitedNames();
+file.WriteLine("Princess had " + visitedNames.Count + " dates:");
+foreach (var contender in visitedNames)
 {
-    file.WriteLine($"{contender.Name} {contender.Score}");
+    file.WriteLine(contender);
 }
+
 var happiness = princess.GetHappiness();
 if (happiness.Equals(10))
 {

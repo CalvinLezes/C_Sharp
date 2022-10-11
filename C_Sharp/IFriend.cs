@@ -5,11 +5,13 @@
 /// </summary>
 interface IFriend
 {
+    public void AddContenderInVisited(Contender contender);
+
     /// <summary>
     /// Check if contestants met the princess and compare them
     /// </summary>
-    /// <param name="current"></param>
-    /// <param name="previous"></param>
+    /// <param name="currentName"></param>
+    /// <param name="previousName"></param>
     /// <returns>If current is worse then previous then true, else false</returns>
-    public bool CompareContenders(Contender current, Contender previous);
+    public bool CompareContenders(string currentName, string previousName);
 }

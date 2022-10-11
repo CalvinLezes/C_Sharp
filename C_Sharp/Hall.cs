@@ -11,12 +11,14 @@ class Hall: IHall
     /// </summary>
     private List<Contender> _contenders = new();
 
-    /// <summary>
-    /// List of contenders, who already met the Princess
-    /// </summary>
-    public List<Contender> Visited { get; } = new();
-
     private Contender? _husband;
+
+    private readonly Friend _friend;
+
+    public Hall(Friend friend)
+    {
+        _friend = friend;
+    }
 
     /// <summary>
     /// Load names of contenders from a file, and create a list of contenders
@@ -27,6 +29,7 @@ class Hall: IHall
         var contendersAdded = 0;
         var currentScore = 1;
         var names = new List<Contender>();
+
         //Text file with 100 unique names
         using StreamReader reader = new("Names.txt"); 
         while(reader.ReadLine() is { } name && contendersAdded != numberOfContenders)
@@ -49,14 +52,14 @@ class Hall: IHall
     }
 
     /// <summary>
-    /// Get the next contender to go on a date with the Princess
+    /// Get the next contender to visit the Princess
     /// </summary>
-    /// <returns>Next contender</returns>
-    public Contender GetNextContender()
+    /// <returns>Next contender's name</returns>
+    public string GetNextContenderToVisitPrincess()
     {
         var next = _contenders.First();
-        _contenders.Remove(next);
-        return next;
+        _friend.AddContenderInVisited(next);
+        return next.Name;
     }
 
     /// <summary>
@@ -68,21 +71,25 @@ class Hall: IHall
         return _contenders.Count == 0;
     }
 
-    /// <summary>
-    /// Set husband to a contender, who Princess chose
-    /// </summary>
-    /// <param name="husband"></param>
-    public void SetHusband(Contender husband)
+    public void ReturnContender(bool doesSheMarryHim, string contenderName)
     {
-        _husband = husband;
+        var contender = _contenders.Find(contender => contender.Name.Equals(contenderName));
+        if (doesSheMarryHim)
+        {
+            _husband = contender;
+        }
+        else
+        {
+            _contenders.Remove(contender);
+        }
     }
 
     /// <summary>
     /// Get husband's score
     /// </summary>
     /// <returns>Husbands score</returns>
-    public int GetHusbandScore()
+    public int? GetHusbandScore()
     {
-        return _husband?.Score ?? 0; //If the Princess didn't choose a husband returns 0
+        return _husband?.Score ?? null; 
     }
 }

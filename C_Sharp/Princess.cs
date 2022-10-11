@@ -1,4 +1,6 @@
-﻿namespace C_Sharp
+﻿using System.ComponentModel.Design;
+
+namespace C_Sharp
 {
     /// <summary>
     /// Princess who is trying to find a husband.
@@ -30,6 +32,8 @@
         /// </summary>
         private readonly Friend _friend;
 
+        private readonly List<string> _namesOfVisited = new();
+
         public Princess(Hall hall, Friend friend)
         {
             this._hall = hall;
@@ -39,14 +43,15 @@
         /// <summary>
         /// Princess has a date with a contender, and decides if she marries him or not.
         /// </summary>
-        /// <param name="contender"></param>
-        public void HaveADate(Contender contender)
+        /// <param name="contenderName"></param>
+        public bool HaveADate(string contenderName)
         {
-            if (_hall.Visited.Find(previous => _friend.CompareContenders(contender, previous)) == null)
+            if (_namesOfVisited.Find(previousName => _friend.CompareContenders(contenderName, previousName)) == null)
             {
-                _hall.SetHusband(contender);
                 _iAmSingle = false;
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -59,12 +64,16 @@
             var numberOfDates = 0;
             while (_iAmSingle && !_hall.IsEmpty())
             {
-                var contender = _hall.GetNextContender();
-                _hall.Visited.Add(contender);
-                if (numberOfDates > NumberOfContendersToSkip) //Princess skips first 100/e contenders
+                var contenderName = _hall.GetNextContenderToVisitPrincess();
+                _namesOfVisited.Add(contenderName);
+                var doIMarryHim = false;
+                //Princess skips first 100/e contenders
+                if (numberOfDates > NumberOfContendersToSkip) 
                 {
-                    HaveADate(contender);
+                    doIMarryHim = HaveADate(contenderName);
                 }
+                _hall.ReturnContender(doIMarryHim, contenderName);
+                
                 numberOfDates++;
             }
         }
@@ -76,11 +85,31 @@
         public int GetHappiness()
         {
             var score = _hall.GetHusbandScore();
-            if (score == 0)
+
+            //If the Princess didn't choose a husband, her happiness score is 10
+            const int happinessIfPrincessDintChooseAnybody = 10;
+
+            //If princess chose contender with score less then 51, her happiness is 0
+            const int scoreBelowWhichPrincessIsUnhappy = 51;
+            const int happinessIfPrincessMadeABadChoice = 0;
+
+            if (score == null)
             {
-                return 10; //If the Princess didn't choose a husband, her happiness score is 10
+                return happinessIfPrincessDintChooseAnybody;
+                
             }
-            return score < 51 ? 0 : score; //If contender's score is less then 51, her happiness is 0
+            if((int)score < scoreBelowWhichPrincessIsUnhappy)
+            {
+                return happinessIfPrincessMadeABadChoice;
+            }
+            return (int)score;
+
+        }
+        public List<string> GetVisitedNames()
+        {
+            return _namesOfVisited;
         }
     }
+
+    
 }

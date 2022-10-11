@@ -5,17 +5,16 @@
 /// </summary>
 interface IHall
 {
-    public List<Contender> Visited { get; }
     /// <summary>
     /// Create a list of contenders
     /// </summary>
     public void CreateContendersList();
 
     /// <summary>
-    /// Get the next contender to go on a date with the Princess
+    /// Get the next contender to visit the Princess
     /// </summary>
     /// <returns></returns>
-    public Contender GetNextContender();
+    public string GetNextContenderToVisitPrincess();
 
     /// <summary>
     /// Check if the hall is empty
@@ -24,14 +23,8 @@ interface IHall
     public bool IsEmpty();
 
     /// <summary>
-    /// Set husband to a contender, who Princess chose
-    /// </summary>
-    /// <param name="husband"></param>
-    public void SetHusband(Contender husband);
-
-    /// <summary>
     /// Get husband's score
     /// </summary>
     /// <returns>Husband's score</returns>
-    public int GetHusbandScore();
+    public int? GetHusbandScore();
 }
