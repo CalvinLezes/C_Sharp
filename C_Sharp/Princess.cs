@@ -77,14 +77,11 @@
         public int GetHappiness()
         {
             var score = _hall.GetHusbandScore();
-
             //If the Princess didn't choose a husband, her happiness score is 10
             const int happinessIfPrincessDintChooseAnybody = 10;
-
             //If princess chose contender with score less then 51, her happiness is 0
             const int scoreBelowWhichPrincessIsUnhappy = 51;
             const int happinessIfPrincessMadeABadChoice = 0;
-
             if (score == null)
             {
                 return happinessIfPrincessDintChooseAnybody;
@@ -95,8 +92,8 @@
                 return happinessIfPrincessMadeABadChoice;
             }
             return (int)score;
-
         }
+
         /// <summary>
         /// Get list of visited contenders' names
         /// </summary>
@@ -106,6 +103,4 @@
             return _namesOfVisited;
         }
     }
-
-    
 }

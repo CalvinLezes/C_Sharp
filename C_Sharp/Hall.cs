@@ -35,7 +35,6 @@ class Hall: IHall
         var contendersAdded = 0;
         var currentScore = 1;
         var names = new List<Contender>();
-
         //Text file with 100 unique names
         using StreamReader reader = new("Names.txt"); 
         while(reader.ReadLine() is { } name && contendersAdded != numberOfContenders)
@@ -77,6 +76,11 @@ class Hall: IHall
         return _contenders.Count == 0;
     }
 
+    /// <summary>
+    /// Contender returns in hall
+    /// </summary>
+    /// <param name="doesSheMarryHim"></param>
+    /// <param name="contenderName"></param>
     public void ReturnContender(bool doesSheMarryHim, string contenderName)
     {
         var contender = _contenders.Find(contender => contender.Name.Equals(contenderName));
@@ -96,6 +100,6 @@ class Hall: IHall
     /// <returns>Husbands score, null if no husband</returns>
     public int? GetHusbandScore()
     {
-        return _husband?.Score ?? null; 
+        return _husband?.Score; 
     }
 }
