@@ -37,14 +37,15 @@
         /// </summary>
         /// <param name="contenderName"></param>
         /// <returns>True if she marries this contender, false if not</returns>
-        public bool HaveADate(string contenderName)
+        public void HaveADate(string contenderName)
         {
+            //Princess asks friend to compare current contender with everyone she already met
+            //If he is the best, she decides to marry him
             if (_namesOfVisited.Find(previousName => _friend.CompareContenders(contenderName, previousName)) == null)
             {
                 _iAmSingle = false;
-                return true;
+                _hall.SetHusband(contenderName);
             }
-            return false;
         }
 
         /// <summary>
@@ -60,12 +61,10 @@
             {
                 var contenderName = _hall.GetNextContenderAndTellFriendAboutIt();
                 _namesOfVisited.Add(contenderName);
-                var doIMarryHim = false;
                 if (numberOfDates > numberOfContendersToSkip) 
                 {
-                    doIMarryHim = HaveADate(contenderName);
+                    HaveADate(contenderName);
                 }
-                _hall.ReturnContender(doIMarryHim, contenderName);
                 numberOfDates++;
             }
         }

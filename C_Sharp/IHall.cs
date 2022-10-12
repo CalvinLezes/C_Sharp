@@ -24,6 +24,12 @@ interface IHall
     public bool IsEmpty();
 
     /// <summary>
+    /// Set husband to a contender the Princess chose to marry
+    /// </summary>
+    /// <param name="husbandName"></param>
+    public void SetHusband(string husbandName);
+
+    /// <summary>
     /// Get husband's score
     /// </summary>
     /// <returns>Husband's score, null if no husband</returns>

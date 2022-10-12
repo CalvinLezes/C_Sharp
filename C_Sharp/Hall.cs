@@ -27,17 +27,27 @@ class Hall: IHall
     }
 
     /// <summary>
+    /// Index of next contender to have a date with the Princess
+    /// </summary>
+    private int _nextContenderIndex = 0;
+
+    /// <summary>
+    /// Total number of contenders, who want to marry the Princess
+    /// </summary>
+    private const int NumberOfContenders = 100;
+
+    /// <summary>
     /// Load names of contenders from a file, and create a list of contenders
     /// </summary>
     public void CreateContendersList()
     {
-        const int numberOfContenders = 100;
+        
         var contendersAdded = 0;
         var currentScore = 1;
         var names = new List<Contender>();
         //Text file with 100 unique names
         using StreamReader reader = new("Names.txt"); 
-        while(reader.ReadLine() is { } name && contendersAdded != numberOfContenders)
+        while(reader.ReadLine() is { } name && contendersAdded != NumberOfContenders)
         {
             Contender contender = new()
             {
@@ -48,7 +58,7 @@ class Hall: IHall
             contendersAdded++;
             currentScore++;
         }
-        if (contendersAdded < numberOfContenders)
+        if (contendersAdded < NumberOfContenders)
         {
             throw new Exception("Added less then 100 contenders, not enough names in Names.txt");
         }
@@ -62,7 +72,8 @@ class Hall: IHall
     /// <returns>Next contender's name</returns>
     public string GetNextContenderAndTellFriendAboutIt()
     {
-        var next = _contenders.First();
+        var next = _contenders[_nextContenderIndex];
+        _nextContenderIndex++;
         _friend.AddContenderInVisited(next);
         return next.Name;
     }
@@ -73,25 +84,16 @@ class Hall: IHall
     /// <returns>True if the hall is empty, else false</returns>
     public bool IsEmpty()
     {
-        return _contenders.Count == 0;
+        return _nextContenderIndex == NumberOfContenders;
     }
 
     /// <summary>
-    /// Contender returns in hall
+    /// Set husband to a contender the Princess chose to marry
     /// </summary>
-    /// <param name="doesSheMarryHim"></param>
-    /// <param name="contenderName"></param>
-    public void ReturnContender(bool doesSheMarryHim, string contenderName)
+    /// <param name="husbandName"></param>
+    public void SetHusband(string husbandName)
     {
-        var contender = _contenders.Find(contender => contender.Name.Equals(contenderName));
-        if (doesSheMarryHim)
-        {
-            _husband = contender;
-        }
-        else
-        {
-            _contenders.Remove(contender);
-        }
+        _husband = _contenders.Find(contender => contender.Name.Equals(husbandName));
     }
 
     /// <summary>
