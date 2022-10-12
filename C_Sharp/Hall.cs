@@ -41,7 +41,6 @@ class Hall: IHall
     /// </summary>
     public void CreateContendersList()
     {
-        
         var contendersAdded = 0;
         var currentScore = 1;
         var names = new List<Contender>();

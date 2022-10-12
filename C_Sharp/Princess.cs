@@ -84,7 +84,6 @@
             if (score == null)
             {
                 return happinessIfPrincessDintChooseAnybody;
-                
             }
             if((int)score < scoreBelowWhichPrincessIsUnhappy)
             {
