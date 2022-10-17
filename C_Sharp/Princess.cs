@@ -1,10 +1,12 @@
-﻿namespace C_Sharp
+﻿using Microsoft.Extensions.Hosting;
+
+namespace C_Sharp
 {
     /// <summary>
     /// Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
     /// </summary>
-    class Princess
+    class Princess: IHostedService
     {
         /// <summary>
         /// If the Princess still single or not
@@ -26,10 +28,13 @@
         /// </summary>
         private readonly List<string> _namesOfVisited = new();
 
-        public Princess(Hall hall, Friend friend)
+        IHostApplicationLifetime _lifeTime;
+
+        public Princess(Hall hall, Friend friend, IHostApplicationLifetime lifeTime)
         {
             this._hall = hall;
             this._friend = friend;
+            _lifeTime = lifeTime;
         }
 
         /// <summary>
@@ -99,6 +104,44 @@
         public List<string> GetVisitedContendersNames()
         {
             return _namesOfVisited;
+        }
+
+        /// <summary>
+        /// Print result offinding husband
+        /// </summary>
+        public void PrintResult()
+        {
+            using StreamWriter file = new("result.txt");
+            file.WriteLine("Princess had " + _namesOfVisited.Count + " dates:");
+            foreach (var contender in _namesOfVisited)
+            {
+                file.WriteLine(contender);
+            }
+            var happiness = GetHappiness();
+            if (_iAmSingle)
+            {
+                file.WriteLine("\nPrincess didn't choose a husband");
+            }
+            file.WriteLine($"\nHow happy is the princess: {happiness}");
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            Task.Run(RunAsync, cancellationToken);
+            return Task.CompletedTask;
+        }
+
+        public void RunAsync()
+        {
+            _hall.CreateContendersList();
+            FindHusband();
+            PrintResult();
+            _lifeTime.StopApplication();
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
         }
     }
 }

@@ -21,9 +21,15 @@ class Hall: IHall
     /// </summary>
     private readonly Friend _friend;
 
-    public Hall(Friend friend)
+    /// <summary>
+    /// Contender Generator creates list of contenders
+    /// </summary>
+    private readonly ContenderGenerator _contenderGenerator;
+
+    public Hall(Friend friend, ContenderGenerator contenderGenerator)
     {
         _friend = friend;
+        _contenderGenerator = contenderGenerator;
     }
 
     /// <summary>
@@ -37,32 +43,11 @@ class Hall: IHall
     private const int NumberOfContenders = 100;
 
     /// <summary>
-    /// Load names of contenders from a file, and create a list of contenders
+    /// Call for contenderGenerator to create list of contenders
     /// </summary>
     public void CreateContendersList()
     {
-        var contendersAdded = 0;
-        var currentScore = 1;
-        var names = new List<Contender>();
-        //Text file with 100 unique names
-        using StreamReader reader = new("Names.txt"); 
-        while(reader.ReadLine() is { } name && contendersAdded != NumberOfContenders)
-        {
-            Contender contender = new()
-            {
-                Name = name,
-                Score = currentScore,
-            };
-            names.Add(contender);
-            contendersAdded++;
-            currentScore++;
-        }
-        if (contendersAdded < NumberOfContenders)
-        {
-            throw new Exception("Added less then 100 contenders, not enough names in Names.txt");
-        }
-        var rnd = new Random();
-        _contenders = names.OrderBy(item => rnd.Next()).ToList();
+        _contenders = _contenderGenerator.CreateContendersList();
     }
 
     /// <summary>
