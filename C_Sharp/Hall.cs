@@ -19,14 +19,14 @@ class Hall: IHall
     /// <summary>
     /// Princess' friend, who remembers who visited princess
     /// </summary>
-    private readonly Friend _friend;
+    private readonly IFriend _friend;
 
     /// <summary>
     /// Contender Generator creates list of contenders
     /// </summary>
     private readonly ContenderGenerator _contenderGenerator;
 
-    public Hall(Friend friend, ContenderGenerator contenderGenerator)
+    public Hall(IFriend friend, ContenderGenerator contenderGenerator)
     {
         _friend = friend;
         _contenderGenerator = contenderGenerator;

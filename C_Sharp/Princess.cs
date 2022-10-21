@@ -16,12 +16,12 @@ namespace C_Sharp
         /// <summary>
         /// Hall, where contenders are.
         /// </summary>
-        private readonly Hall _hall;
+        private readonly IHall _hall;
 
         /// <summary>
         /// Friend, who Princess uses for help
         /// </summary>
-        private readonly Friend _friend;
+        private readonly IFriend _friend;
 
         /// <summary>
         /// List of names of contenders who visited the Princess
@@ -30,10 +30,10 @@ namespace C_Sharp
 
         IHostApplicationLifetime _lifeTime;
 
-        public Princess(Hall hall, Friend friend, IHostApplicationLifetime lifeTime)
+        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime)
         {
-            this._hall = hall;
-            this._friend = friend;
+            _hall = hall;
+            _friend = friend;
             _lifeTime = lifeTime;
         }
 
@@ -98,21 +98,12 @@ namespace C_Sharp
         }
 
         /// <summary>
-        /// Get list of visited contenders' names
-        /// </summary>
-        /// <returns>List of visited contenders' names</returns>
-        public List<string> GetVisitedContendersNames()
-        {
-            return _namesOfVisited;
-        }
-
-        /// <summary>
-        /// Print result offinding husband
+        /// Print result of finding husband
         /// </summary>
         public void PrintResult()
         {
             using StreamWriter file = new("result.txt");
-            file.WriteLine("Princess had " + _namesOfVisited.Count + " dates:");
+            file.WriteLine($"Princess had {_namesOfVisited.Count} dates:");
             foreach (var contender in _namesOfVisited)
             {
                 file.WriteLine(contender);

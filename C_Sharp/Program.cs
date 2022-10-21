@@ -6,8 +6,8 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         services.AddHostedService<Princess>();
-        services.AddScoped<Hall>();
-        services.AddScoped<Friend>();
+        services.AddScoped<IHall, Hall>();
+        services.AddScoped<IFriend, Friend>();
         services.AddScoped<ContenderGenerator>();
     })
     .Build();
