@@ -3,7 +3,7 @@
     /// <summary>
     /// Contender, who wants to marry the Princess
     /// </summary>
-    class Contender
+    public class Contender
     {
         /// <summary>
         /// Score of a contender (from 1 to 100)

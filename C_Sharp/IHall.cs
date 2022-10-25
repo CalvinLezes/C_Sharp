@@ -4,7 +4,7 @@
 /// Hall, where all contestants wait for their turn, 
 /// and where they return after a date with the Princess 
 /// </summary>
-interface IHall
+public interface IHall
 {
     /// <summary>
     /// Create a list of contenders

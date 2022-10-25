@@ -4,7 +4,7 @@
 /// Hall, where all contestants wait for their turn, 
 /// and where they return after a date with the Princess 
 /// </summary>
-class Hall: IHall
+public class Hall: IHall
 {
     /// <summary>
     /// List of contenders, who wait for their turn to meet the Princess
