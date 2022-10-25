@@ -3,7 +3,7 @@
     /// <summary>
     /// Friend, who compares two contestants for the Princess, but only if they both already met the Princess.
     /// </summary>
-    class Friend: IFriend
+    class Friend : IFriend
     {
         /// <summary>
         /// List of contenders, who already met the Princess

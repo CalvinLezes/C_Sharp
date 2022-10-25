@@ -51,15 +51,21 @@ class Hall: IHall
     }
 
     /// <summary>
-    /// Get the next contender to visit the Princess and tell friend about it
+    /// Get the next contender's name to visit the Princess
     /// </summary>
     /// <returns>Next contender's name</returns>
-    public string GetNextContenderAndTellFriendAboutIt()
+    public string GetNextContenderName()
     {
-        var next = _contenders[_nextContenderIndex];
+        return _contenders[_nextContenderIndex].Name;
+    }
+
+    /// <summary>
+    /// Add current contender in Visited list
+    /// </summary>
+    public void AddContenderInVisited()
+    {
+        _friend.AddContenderInVisited(_contenders[_nextContenderIndex]);
         _nextContenderIndex++;
-        _friend.AddContenderInVisited(next);
-        return next.Name;
     }
 
     /// <summary>

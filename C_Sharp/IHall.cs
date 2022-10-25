@@ -15,7 +15,12 @@ interface IHall
     /// Get the next contender to visit the Princess and tell friend about it
     /// </summary>
     /// <returns>Next contender's name</returns>
-    public string GetNextContenderAndTellFriendAboutIt();
+    public string GetNextContenderName();
+
+    /// <summary>
+    /// Add current contender in Visited list
+    /// </summary>
+    public void AddContenderInVisited();
 
     /// <summary>
     /// Check if the hall is empty

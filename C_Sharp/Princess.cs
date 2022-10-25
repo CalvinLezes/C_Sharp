@@ -64,8 +64,9 @@ namespace C_Sharp
             var numberOfDates = 0;
             while (_iAmSingle && !_hall.IsEmpty())
             {
-                var contenderName = _hall.GetNextContenderAndTellFriendAboutIt();
+                var contenderName = _hall.GetNextContenderName();
                 _namesOfVisited.Add(contenderName);
+                _hall.AddContenderInVisited();
                 if (numberOfDates > numberOfContendersToSkip) 
                 {
                     HaveADate(contenderName);
