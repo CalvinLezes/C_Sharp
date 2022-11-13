@@ -24,9 +24,9 @@ public class Hall: IHall
     /// <summary>
     /// Contender Generator creates list of contenders
     /// </summary>
-    private readonly ContenderGenerator _contenderGenerator;
+    private readonly IContenderGenerator _contenderGenerator;
 
-    public Hall(IFriend friend, ContenderGenerator contenderGenerator)
+    public Hall(IFriend friend, IContenderGenerator contenderGenerator)
     {
         _friend = friend;
         _contenderGenerator = contenderGenerator;
@@ -56,6 +56,10 @@ public class Hall: IHall
     /// <returns>Next contender's name</returns>
     public string GetNextContenderName()
     {
+        if (IsEmpty())
+        {
+            throw new Exception("Trying to get contender from empty hall");
+        }
         return _contenders[_nextContenderIndex].Name;
     }
 
@@ -74,7 +78,7 @@ public class Hall: IHall
     /// <returns>True if the hall is empty, else false</returns>
     public bool IsEmpty()
     {
-        return _nextContenderIndex == NumberOfContenders;
+        return _nextContenderIndex == NumberOfContenders|| _contenders.Count==0;
     }
 
     /// <summary>

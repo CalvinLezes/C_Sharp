@@ -10,7 +10,7 @@ namespace C_Sharp.Tests
     public class ContenderGeneratorTest
     {
         [Fact]
-        public void UniqnessTest()
+        public void CreateContendersList_Generates_UniqueNames()
         {
             var contenderGeneator = new ContenderGenerator();
             var contenderList = contenderGeneator.CreateContendersList();

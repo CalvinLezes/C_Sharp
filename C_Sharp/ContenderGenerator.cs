@@ -3,7 +3,7 @@
     /// <summary>
     /// Contender Generator creates list of contenders
     /// </summary>
-    public class ContenderGenerator
+    public class ContenderGenerator : IContenderGenerator
     {
         /// <summary>
         /// Create a list of 100 contenders with unique names
