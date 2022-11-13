@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using Moq;
-using static System.Formats.Asn1.AsnWriter;
-using System.Xml.Linq;
 
 namespace C_Sharp.Tests
 {
     public class HallTest
     {
+        private const int NumberOfContenders = 100;
+
         [Fact]
         public void GetNextContenderName_Returns_CorrectName()
         {
@@ -21,7 +21,7 @@ namespace C_Sharp.Tests
         List<Contender> CreateContendersList()
         {
             var contenders = new List<Contender>();
-            for(int i = 1; i < 101; i++)
+            for(int i = 1; i < NumberOfContenders+1; i++)
             {
                 contenders.Add(new Contender()
                 {
