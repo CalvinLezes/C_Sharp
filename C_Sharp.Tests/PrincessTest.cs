@@ -16,7 +16,7 @@ namespace C_Sharp.Tests
         private readonly Friend _friend = new();
 
         [Fact]
-        public void FindHusband_Unhappy()
+        public void Princess_WhenChoseAHusbandWithScoreLessThen50_HasHappinessScore0()
         {
             _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(CreateContenderListForUnhappyPrincess());
             var hall = new Hall(_friend, _mockContenderGenerator.Object);
@@ -27,7 +27,7 @@ namespace C_Sharp.Tests
         }
 
         [Fact]
-        public void FindHusband_Alone()
+        public void Princess_WhenDidntChooseAHusband_HasHappinessScore10()
         {
             _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(CreateContenderListForAlonePrincess());
             var hall = new Hall(_friend, _mockContenderGenerator.Object);
@@ -38,7 +38,7 @@ namespace C_Sharp.Tests
         }
 
         [Fact]
-        public void FindHusband_Happy()
+        public void Princess_WhenChoseAHusbandWithscoreMoreThen50_HasHappinesScoreEqualToHisScore()
         {
             _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(CreateContenderListForHappyPrincess());
             var hall = new Hall(_friend, _mockContenderGenerator.Object);
