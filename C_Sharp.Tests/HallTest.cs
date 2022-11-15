@@ -32,6 +32,7 @@ namespace C_Sharp.Tests
             }
             return contenders;
         }
+
         [Fact]
         public void GetNextContenderName_FromEmptyHall_ThrowsException()
         {

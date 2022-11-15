@@ -11,7 +11,7 @@ namespace C_Sharp.Tests
         private const int HappinessForAlonePrincess = 10;
         private const int HappinessForUnhappyPrincess = 0;
 
-        private Mock<IContenderGenerator> _mockContenderGenerator = new();
+        private readonly Mock<IContenderGenerator> _mockContenderGenerator = new();
         private readonly Mock<IHostApplicationLifetime> _lifetime = new();
         private readonly Friend _friend = new();
 

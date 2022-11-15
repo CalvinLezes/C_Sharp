@@ -32,7 +32,7 @@
             var previous = _visited.Find(contender => contender.Name.Equals(previousName));
             if (current == null || previous == null)
             {
-                throw new Exception("Trying to compare contenders, who princess didn't meet yet");
+                throw new Exception(Properties.Resources.CompareContendersException);
             }
             return current.Score < previous.Score;
         }
