@@ -7,13 +7,17 @@ namespace C_Sharp.Tests
     public class PrincessTest
     {
         private const int NumberOfContenders = 100;
-        private const int HappinessForHappyPrincess = 100;
-        private const int HappinessForAlonePrincess = 10;
-        private const int HappinessForUnhappyPrincess = 0;
 
-        private readonly Mock<IContenderGenerator> _mockContenderGenerator = new();
-        private readonly Mock<IHostApplicationLifetime> _lifetime = new();
-        private readonly Friend _friend = new();
+        private readonly Mock<IContenderGenerator> _mockContenderGenerator;
+        private readonly Mock<IHostApplicationLifetime> _lifetime;
+        private readonly Friend _friend;
+
+        public PrincessTest()
+        {
+            _mockContenderGenerator = new Mock<IContenderGenerator>();
+            _lifetime = new Mock<IHostApplicationLifetime>();
+            _friend = new Friend();
+        }
 
         [Fact]
         public void Princess_WhenChoseAHusbandWithScoreLessThen50_HasHappinessScore0()
@@ -23,7 +27,8 @@ namespace C_Sharp.Tests
             hall.CreateContendersList();
             var princess = new Princess(hall, _friend, _lifetime.Object);
             princess.FindHusband();
-            princess.GetHappiness().Should().Be(HappinessForUnhappyPrincess);
+            var excpectedHappiness = 0;
+            princess.GetHappiness().Should().Be(excpectedHappiness);
         }
 
         [Fact]
@@ -34,18 +39,20 @@ namespace C_Sharp.Tests
             hall.CreateContendersList();
             var princess = new Princess(hall, _friend, _lifetime.Object);
             princess.FindHusband();
-            princess.GetHappiness().Should().Be(HappinessForAlonePrincess);
+            var excpectedHappiness = 10;
+            princess.GetHappiness().Should().Be(excpectedHappiness);
         }
 
         [Fact]
-        public void Princess_WhenChoseAHusbandWithscoreMoreThen50_HasHappinesScoreEqualToHisScore()
+        public void Princess_WhenChoseAHusbandWithScoreMoreThen50_HasHappines100()
         {
             _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(CreateContenderListForHappyPrincess());
             var hall = new Hall(_friend, _mockContenderGenerator.Object);
             hall.CreateContendersList();
             var princess = new Princess(hall, _friend, _lifetime.Object);
             princess.FindHusband();
-            princess.GetHappiness().Should().Be(HappinessForHappyPrincess);
+            var excpectedHappiness = 100;
+            princess.GetHappiness().Should().Be(excpectedHappiness);
         }
 
         List<Contender> CreateContenderListForUnhappyPrincess()
