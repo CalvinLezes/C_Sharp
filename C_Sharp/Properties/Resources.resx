@@ -120,4 +120,7 @@
   <data name="CompareContendersException" xml:space="preserve">
     <value>Trying to compare contenders, who princess didn't meet yet</value>
   </data>
+  <data name="EmptyHallException" xml:space="preserve">
+    <value>Trying to get contender from empty hall</value>
+  </data>
 </root>

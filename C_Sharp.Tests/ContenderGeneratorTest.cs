@@ -21,8 +21,8 @@ namespace C_Sharp.Tests
         [Fact]
         public void CreateContendersList_Generates_Exactly100Contenders()
         {
-            const int expectedCapacity = 100;
-            _contenderList.Capacity.Should().Be(expectedCapacity);
+            const int expectedCount = 100;
+            _contenderList.Count.Should().Be(expectedCount);
         }
     }
 }

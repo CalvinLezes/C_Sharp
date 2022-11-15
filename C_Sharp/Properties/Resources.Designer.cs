@@ -68,5 +68,14 @@ namespace C_Sharp.Properties {
                 return ResourceManager.GetString("CompareContendersException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Trying to get contender from empty hall.
+        /// </summary>
+        public static string EmptyHallException {
+            get {
+                return ResourceManager.GetString("EmptyHallException", resourceCulture);
+            }
+        }
     }
 }

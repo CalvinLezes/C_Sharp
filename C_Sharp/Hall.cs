@@ -40,7 +40,7 @@ public class Hall: IHall
     /// <summary>
     /// Total number of contenders, who want to marry the Princess
     /// </summary>
-    private const int NumberOfContenders = 100;
+    private int _numberOfContenders;
 
     /// <summary>
     /// Call for contenderGenerator to create list of contenders
@@ -48,6 +48,7 @@ public class Hall: IHall
     public void CreateContendersList()
     {
         _contenders = _contenderGenerator.CreateContendersList();
+        _numberOfContenders = _contenders.Count;
     }
 
     /// <summary>
@@ -58,7 +59,7 @@ public class Hall: IHall
     {
         if (IsEmpty())
         {
-            throw new Exception("Trying to get contender from empty hall");
+            throw new Exception(Properties.Resources.EmptyHallException);
         }
         return _contenders[_nextContenderIndex].Name;
     }
@@ -78,7 +79,7 @@ public class Hall: IHall
     /// <returns>True if the hall is empty, else false</returns>
     public bool IsEmpty()
     {
-        return _nextContenderIndex == NumberOfContenders|| _contenders.Count==0;
+        return _nextContenderIndex == _numberOfContenders || _contenders.Count == 0;
     }
 
     /// <summary>
