@@ -7,6 +7,7 @@ namespace C_Sharp.Tests
     {
         private readonly Hall _hall;
         private readonly List<Contender> _contenders;
+
         public HallTest()
         {
             var mockContenderGenerator = new Mock<IContenderGenerator>();
@@ -17,7 +18,7 @@ namespace C_Sharp.Tests
         }
 
         [Fact]
-        public void GetNextContenderName_Returns_CorrectName()
+        public void GetNextContenderName_Returns_NextContenderName()
         { 
             _hall.CreateContendersList();
             var nextContenderName = _hall.GetNextContenderName();
