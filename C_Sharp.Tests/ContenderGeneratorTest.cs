@@ -1,22 +1,28 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace C_Sharp.Tests
 {
     public class ContenderGeneratorTest
     {
+        private readonly List<Contender> _contenderList;
+        public ContenderGeneratorTest()
+        {
+            var contenderGeneator = new ContenderGenerator();
+            _contenderList = contenderGeneator.CreateContendersList();
+        }
+
         [Fact]
         public void CreateContendersList_Generates_UniqueNames()
         {
-            var contenderGeneator = new ContenderGenerator();
-            var contenderList = contenderGeneator.CreateContendersList();
-            var contenderNames = new List<string>();
-            contenderList.ForEach(contender => contenderNames.Add(contender.Name));
+            var contenderNames = _contenderList.Select(contender => contender.Name);
             contenderNames.Should().OnlyHaveUniqueItems();
+        }
+
+        [Fact]
+        public void CreateContendersList_Generates_Exactly100Contenders()
+        {
+            const int expectedCapacity = 100;
+            _contenderList.Capacity.Should().Be(expectedCapacity);
         }
     }
 }
