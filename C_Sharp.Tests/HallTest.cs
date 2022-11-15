@@ -11,11 +11,12 @@ namespace C_Sharp.Tests
         public void GetNextContenderName_Returns_CorrectName()
         {
             var mockContenderGenerator = new Mock<IContenderGenerator>();
-            mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(CreateContendersList());
+            var contenders = CreateContendersList();
+            mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(contenders);
             var hall = new Hall(new Friend(), mockContenderGenerator.Object);
             hall.CreateContendersList();
             var nextContenderName = hall.GetNextContenderName();
-            nextContenderName.Should().Be("contender1");
+            nextContenderName.Should().Be(contenders.First().Name);
         }
 
         List<Contender> CreateContendersList()
