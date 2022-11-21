@@ -28,7 +28,6 @@ namespace C_Sharp.Tests
         {
             Action act = () => _friend.CompareContenders(_worseContender.Name, _betterContender.Name);
             act.Should().Throw<Exception>().WithMessage(Properties.Resources.CompareContendersException);
-            
         }
 
         [Fact]
