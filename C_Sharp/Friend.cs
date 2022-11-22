@@ -3,7 +3,7 @@
     /// <summary>
     /// Friend, who compares two contestants for the Princess, but only if they both already met the Princess.
     /// </summary>
-    class Friend: IFriend
+    public class Friend : IFriend
     {
         /// <summary>
         /// List of contenders, who already met the Princess
@@ -32,7 +32,7 @@
             var previous = _visited.Find(contender => contender.Name.Equals(previousName));
             if (current == null || previous == null)
             {
-                throw new Exception("Trying to compare contenders, who princess didn't meet yet");
+                throw new Exception(Properties.Resources.CompareContendersException);
             }
             return current.Score < previous.Score;
         }

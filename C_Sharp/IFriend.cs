@@ -3,7 +3,7 @@
 /// <summary>
 /// Friend, who compares 2 contestants, but only if they both already met the Princess
 /// </summary>
-interface IFriend
+public interface IFriend
 {
     /// <summary>
     /// Add contender to visited list

@@ -6,7 +6,7 @@ namespace C_Sharp
     /// Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
     /// </summary>
-    class Princess: IHostedService
+    public class Princess: IHostedService
     {
         /// <summary>
         /// If the Princess still single or not
@@ -64,8 +64,9 @@ namespace C_Sharp
             var numberOfDates = 0;
             while (_iAmSingle && !_hall.IsEmpty())
             {
-                var contenderName = _hall.GetNextContenderAndTellFriendAboutIt();
+                var contenderName = _hall.GetNextContenderName();
                 _namesOfVisited.Add(contenderName);
+                _hall.AddContenderInVisited();
                 if (numberOfDates > numberOfContendersToSkip) 
                 {
                     HaveADate(contenderName);

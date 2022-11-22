@@ -4,7 +4,7 @@
 /// Hall, where all contestants wait for their turn, 
 /// and where they return after a date with the Princess 
 /// </summary>
-class Hall: IHall
+public class Hall: IHall
 {
     /// <summary>
     /// List of contenders, who wait for their turn to meet the Princess
@@ -24,9 +24,9 @@ class Hall: IHall
     /// <summary>
     /// Contender Generator creates list of contenders
     /// </summary>
-    private readonly ContenderGenerator _contenderGenerator;
+    private readonly IContenderGenerator _contenderGenerator;
 
-    public Hall(IFriend friend, ContenderGenerator contenderGenerator)
+    public Hall(IFriend friend, IContenderGenerator contenderGenerator)
     {
         _friend = friend;
         _contenderGenerator = contenderGenerator;
@@ -40,7 +40,7 @@ class Hall: IHall
     /// <summary>
     /// Total number of contenders, who want to marry the Princess
     /// </summary>
-    private const int NumberOfContenders = 100;
+    private int _numberOfContenders;
 
     /// <summary>
     /// Call for contenderGenerator to create list of contenders
@@ -48,18 +48,29 @@ class Hall: IHall
     public void CreateContendersList()
     {
         _contenders = _contenderGenerator.CreateContendersList();
+        _numberOfContenders = _contenders.Count;
     }
 
     /// <summary>
-    /// Get the next contender to visit the Princess and tell friend about it
+    /// Get the next contender's name to visit the Princess
     /// </summary>
     /// <returns>Next contender's name</returns>
-    public string GetNextContenderAndTellFriendAboutIt()
+    public string GetNextContenderName()
     {
-        var next = _contenders[_nextContenderIndex];
+        if (IsEmpty())
+        {
+            throw new Exception(Properties.Resources.EmptyHallException);
+        }
+        return _contenders[_nextContenderIndex].Name;
+    }
+
+    /// <summary>
+    /// Add current contender in Visited list
+    /// </summary>
+    public void AddContenderInVisited()
+    {
+        _friend.AddContenderInVisited(_contenders[_nextContenderIndex]);
         _nextContenderIndex++;
-        _friend.AddContenderInVisited(next);
-        return next.Name;
     }
 
     /// <summary>
@@ -68,7 +79,7 @@ class Hall: IHall
     /// <returns>True if the hall is empty, else false</returns>
     public bool IsEmpty()
     {
-        return _nextContenderIndex == NumberOfContenders;
+        return _nextContenderIndex == _numberOfContenders || _contenders.Count == 0;
     }
 
     /// <summary>
