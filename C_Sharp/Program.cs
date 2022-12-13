@@ -9,6 +9,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddScoped<IHall, Hall>();
         services.AddScoped<IFriend, Friend>();
         services.AddScoped<IContenderGenerator, ContenderGenerator>();
+        services.AddDbContext<ApplicationContext>();
     })
     .Build();
 

@@ -1,4 +1,6 @@
-﻿namespace C_Sharp;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace C_Sharp;
 
 /// <summary>
 /// Hall, where all contestants wait for their turn, 
@@ -25,7 +27,7 @@ public class Hall: IHall
     /// Contender Generator creates list of contenders
     /// </summary>
     private readonly IContenderGenerator _contenderGenerator;
-
+    
     public Hall(IFriend friend, IContenderGenerator contenderGenerator)
     {
         _friend = friend;
@@ -49,8 +51,19 @@ public class Hall: IHall
     {
         _contenders = _contenderGenerator.CreateContendersList();
         _numberOfContenders = _contenders.Count;
+        _nextContenderIndex = 0;
     }
 
+    public void LoadContendersList(int attemptId,ApplicationContext applicationContext)
+    {
+        var attempt = applicationContext.Attempts.Include(a => a.Contenders)
+            .FirstOrDefault(a => a.Id == attemptId);
+        _contenders = attempt.Contenders ?? throw new Exception($"Failed to load attempt with id {attemptId}");
+        _numberOfContenders = _contenders.Count;
+        _nextContenderIndex = 0;
+        _husband = null;
+    }
+    
     /// <summary>
     /// Get the next contender's name to visit the Princess
     /// </summary>
@@ -99,4 +112,5 @@ public class Hall: IHall
     {
         return _husband?.Score; 
     }
+
 }

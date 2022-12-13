@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using C_Sharp.Properties;
+using Microsoft.Extensions.Hosting;
 
 namespace C_Sharp
 {
     /// <summary>
     /// Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
+    /// Loads 100 attempts from db and counts average happiness
     /// </summary>
     public class Princess: IHostedService
     {
@@ -29,12 +31,17 @@ namespace C_Sharp
         private readonly List<string> _namesOfVisited = new();
 
         IHostApplicationLifetime _lifeTime;
-
-        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime)
+        
+        /// <summary>
+        /// DBContext to access attempts database
+        /// </summary>
+        private readonly ApplicationContext _applicationContext;
+        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime, ApplicationContext applicationContext)
         {
             _hall = hall;
             _friend = friend;
             _lifeTime = lifeTime;
+            _applicationContext = applicationContext;
         }
 
         /// <summary>
@@ -59,6 +66,7 @@ namespace C_Sharp
         /// </summary>
         public void FindHusband()
         {
+            _iAmSingle = true;
             //Princess skips first 100/e contenders
             const int numberOfContendersToSkip = 36;
             var numberOfDates = 0;
@@ -82,20 +90,23 @@ namespace C_Sharp
         public int GetHappiness()
         {
             var score = _hall.GetHusbandScore();
+            const int firstContenderScore = 100;
+            const int thirdContenderScore = 98;
+            const int fifthContenderScore = 96;
+            const int firstContenderHappiness = 20;
+            const int thirdContenderHappiness = 50;
+            const int fifthContenderHappiness = 100;
+            const int otherContenderHappiness = 0;
             //If the Princess didn't choose a husband, her happiness score is 10
-            const int happinessIfPrincessDintChooseAnybody = 10;
-            //If princess chose contender with score less then 51, her happiness is 0
-            const int scoreBelowWhichPrincessIsUnhappy = 51;
-            const int happinessIfPrincessMadeABadChoice = 0;
-            if (score == null)
+            const int noHusbandHappiness = 10;
+            return score switch
             {
-                return happinessIfPrincessDintChooseAnybody;
-            }
-            if((int)score < scoreBelowWhichPrincessIsUnhappy)
-            {
-                return happinessIfPrincessMadeABadChoice;
-            }
-            return (int)score;
+                null => noHusbandHappiness,
+                firstContenderScore => firstContenderHappiness,
+                thirdContenderScore => thirdContenderHappiness,
+                fifthContenderScore => fifthContenderHappiness,
+                _ => otherContenderHappiness
+            };
         }
 
         /// <summary>
@@ -125,9 +136,17 @@ namespace C_Sharp
 
         public void RunAsync()
         {
-            _hall.CreateContendersList();
-            FindHusband();
-            PrintResult();
+            const int numberOfAttempts = 100;
+            var totalHappiness = 0;
+            for (var i = 0; i < numberOfAttempts; i++)
+            {
+                _namesOfVisited.Clear();
+                _hall.LoadContendersList(i+1, _applicationContext);
+                FindHusband();
+                totalHappiness += GetHappiness();
+            }
+            var averageHappiness = totalHappiness / numberOfAttempts;
+            Console.WriteLine(Resources.AvarageHappinessOutput, averageHappiness);
             _lifeTime.StopApplication();
         }
 
