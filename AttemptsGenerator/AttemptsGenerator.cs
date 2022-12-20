@@ -1,4 +1,6 @@
-﻿namespace AttemptsGenerator;
+﻿using ConfigurationManager = System.Configuration.ConfigurationManager;
+
+namespace AttemptsGenerator;
 using C_Sharp;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +17,7 @@ public class AttemptsGenerator
     public void Generate100Attempts()
     {
         var contenderGenerator = new ContenderGenerator();
-        const string connectionString = @"Server=localhost;Database=PrincessDB;
-                		User Id=postgres;Password=admin";
+        var connectionString = ConfigurationManager.ConnectionStrings["PrincessDB"].ConnectionString;
         var options = new DbContextOptionsBuilder<ApplicationContext>()
             .UseNpgsql(connectionString)
             .Options;

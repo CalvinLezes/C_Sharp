@@ -1,10 +1,10 @@
-﻿using C_Sharp;
+﻿using System.Configuration;
+using C_Sharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-const string connectionString = @"Server=localhost;Database=PrincessDB;
-                		User Id=postgres;Password=admin";
+var connectionString = ConfigurationManager.ConnectionStrings["PrincessDB"].ConnectionString;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
