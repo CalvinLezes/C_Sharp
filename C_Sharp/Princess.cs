@@ -8,7 +8,7 @@ namespace C_Sharp
     /// She will go on a dates with some contenders and will have to choose one.
     /// Loads 100 attempts from db and counts average happiness
     /// </summary>
-    public class Princess: IHostedService
+    public class Princess : IHostedService
     {
         /// <summary>
         /// If the Princess still single or not
@@ -31,12 +31,14 @@ namespace C_Sharp
         private readonly List<string> _namesOfVisited = new();
 
         IHostApplicationLifetime _lifeTime;
-        
+
         /// <summary>
         /// DBContext to access attempts database
         /// </summary>
         private readonly ApplicationContext _applicationContext;
-        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime, ApplicationContext applicationContext)
+
+        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime,
+            ApplicationContext applicationContext)
         {
             _hall = hall;
             _friend = friend;
@@ -75,10 +77,11 @@ namespace C_Sharp
                 var contenderName = _hall.GetNextContenderName();
                 _namesOfVisited.Add(contenderName);
                 _hall.AddContenderInVisited();
-                if (numberOfDates > numberOfContendersToSkip) 
+                if (numberOfDates > numberOfContendersToSkip)
                 {
                     HaveADate(contenderName);
                 }
+
                 numberOfDates++;
             }
         }
@@ -93,19 +96,19 @@ namespace C_Sharp
             const int firstContenderScore = 100;
             const int thirdContenderScore = 98;
             const int fifthContenderScore = 96;
-            const int firstContenderHappiness = 20;
-            const int thirdContenderHappiness = 50;
-            const int fifthContenderHappiness = 100;
-            const int otherContenderHappiness = 0;
+            const int happinessIfFirstContenderChosen = 20;
+            const int happinessIfThirdContenderChosen = 50;
+            const int happinessIfFifthContenderChosen = 100;
+            const int happinessIfOtherContenderChosen = 0;
             //If the Princess didn't choose a husband, her happiness score is 10
-            const int noHusbandHappiness = 10;
+            const int happinessIfNoContenderChosen = 10;
             return score switch
             {
-                null => noHusbandHappiness,
-                firstContenderScore => firstContenderHappiness,
-                thirdContenderScore => thirdContenderHappiness,
-                fifthContenderScore => fifthContenderHappiness,
-                _ => otherContenderHappiness
+                null => happinessIfNoContenderChosen,
+                firstContenderScore => happinessIfFirstContenderChosen,
+                thirdContenderScore => happinessIfThirdContenderChosen,
+                fifthContenderScore => happinessIfFifthContenderChosen,
+                _ => happinessIfOtherContenderChosen
             };
         }
 
@@ -120,11 +123,13 @@ namespace C_Sharp
             {
                 file.WriteLine(contender);
             }
+
             var happiness = GetHappiness();
             if (_iAmSingle)
             {
                 file.WriteLine("\nPrincess didn't choose a husband");
             }
+
             file.WriteLine($"\nHow happy is the princess: {happiness}");
         }
 
@@ -141,10 +146,11 @@ namespace C_Sharp
             for (var i = 0; i < numberOfAttempts; i++)
             {
                 _namesOfVisited.Clear();
-                _hall.LoadContendersList(i+1, _applicationContext);
+                _hall.LoadContendersList(i + 1, _applicationContext);
                 FindHusband();
                 totalHappiness += GetHappiness();
             }
+
             var averageHappiness = totalHappiness / numberOfAttempts;
             Console.WriteLine(Resources.AvarageHappinessOutput, averageHappiness);
             _lifeTime.StopApplication();

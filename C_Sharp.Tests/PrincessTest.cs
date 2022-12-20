@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Moq;
 
@@ -18,13 +19,13 @@ namespace C_Sharp.Tests
             _mockContenderGenerator = new Mock<IContenderGenerator>();
             _lifetime = new Mock<IHostApplicationLifetime>();
             _friend = new Friend();
-            
         }
 
         [Fact]
         public void Princess_WhenDidntChooseAHusband_HasHappinessScore10()
         {
-            _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList()).Returns(CreateContenderListForAlonePrincess());
+            _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator.CreateContendersList())
+                .Returns(CreateContenderListForAlonePrincess());
             var hall = new Hall(_friend, _mockContenderGenerator.Object);
             hall.CreateContendersList();
             var princess = new Princess(hall, _friend, _lifetime.Object, _applicationContext);
@@ -52,6 +53,27 @@ namespace C_Sharp.Tests
             princess.GetHappiness().Should().Be(happiness);
         }
 
+        [Fact]
+        public void Princess_WhenGetsAttemptFromDB_ExecutesIt()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
+                .UseInMemoryDatabase(databaseName: "Test")
+                .Options;
+            using var context = new ApplicationContext(options);
+            var attempt = new Attempt
+            {
+                Contenders = CreateContenderListToChooseHusbandWithSetScore(100)
+            };
+
+            context.Attempts.Add(attempt);
+            context.SaveChanges();
+            var hall = new Hall(_friend, _mockContenderGenerator.Object);
+            var princess = new Princess(hall, _friend, _lifetime.Object, context);
+            hall.LoadContendersList(1, context);
+            princess.FindHusband();
+            princess.GetHappiness().Should().Be(20);
+        }
+
         private static List<Contender> CreateContenderListForAlonePrincess()
         {
             var contenders = new List<Contender>();
@@ -63,6 +85,7 @@ namespace C_Sharp.Tests
                     Score = i
                 });
             }
+
             return contenders;
         }
 
@@ -79,12 +102,13 @@ namespace C_Sharp.Tests
                     Score = i
                 });
             }
+
             contenders.Add(new Contender()
             {
                 Name = "contender" + score,
                 Score = score
             });
-            for (var i = NumberOfContenders-1; i > numberOfContendersToSkip; i--)
+            for (var i = NumberOfContenders - 1; i > numberOfContendersToSkip; i--)
             {
                 contenders.Add(new Contender()
                 {
@@ -92,8 +116,8 @@ namespace C_Sharp.Tests
                     Score = i
                 });
             }
+
             return contenders;
         }
-        
     }
 }
