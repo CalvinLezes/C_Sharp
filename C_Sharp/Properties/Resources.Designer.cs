@@ -85,5 +85,14 @@ namespace C_Sharp.Properties {
                 return ResourceManager.GetString("EmptyHallException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load attempt with id {0}.
+        /// </summary>
+        public static string Failed_to_load_attempt_Exception_Massage {
+            get {
+                return ResourceManager.GetString("Failed_to_load_attempt_Exception_Massage", resourceCulture);
+            }
+        }
     }
 }

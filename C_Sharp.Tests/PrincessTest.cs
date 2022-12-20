@@ -36,13 +36,13 @@ namespace C_Sharp.Tests
 
         [Theory]
         [InlineData(100, 20)]
+        [InlineData(99, 0)]
         [InlineData(98, 50)]
         [InlineData(96, 100)]
-        [InlineData(99, 0)]
         [InlineData(51, 0)]
         [InlineData(49, 0)]
         [InlineData(37, 0)]
-        public void Princess_WhenChoseAHusbandWithSetScore_HasSetHappiness(int score, int happiness)
+        public void Princess_WhenChoseAHusbandWithSetScore_HasSetHappiness(int score, int expectedHappiness)
         {
             _mockContenderGenerator.Setup(contenderGenerator => contenderGenerator
                 .CreateContendersList()).Returns(CreateContenderListToChooseHusbandWithSetScore(score));
@@ -50,11 +50,23 @@ namespace C_Sharp.Tests
             hall.CreateContendersList();
             var princess = new Princess(hall, _friend, _lifetime.Object, _applicationContext);
             princess.FindHusband();
-            princess.GetHappiness().Should().Be(happiness);
+            princess.GetHappiness().Should().Be(expectedHappiness);
         }
 
         [Fact]
         public void Princess_WhenGetsAttemptFromDB_ExecutesIt()
+        {
+            const int bestContenderScore = 96;
+            const int expectedHappiness = 100;
+            var context = CreateInMemoryContextWithOneAttemptWithSetScore(bestContenderScore);
+            var hall = new Hall(_friend, _mockContenderGenerator.Object);
+            var princess = new Princess(hall, _friend, _lifetime.Object, context);
+            hall.LoadContendersList(1, context);
+            princess.FindHusband();
+            princess.GetHappiness().Should().Be(expectedHappiness);
+        }
+
+        private static ApplicationContext CreateInMemoryContextWithOneAttemptWithSetScore(int score)
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>()
                 .UseInMemoryDatabase(databaseName: "Test")
@@ -62,18 +74,18 @@ namespace C_Sharp.Tests
             using var context = new ApplicationContext(options);
             var attempt = new Attempt
             {
-                Contenders = CreateContenderListToChooseHusbandWithSetScore(100)
+                Contenders = CreateContenderListToChooseHusbandWithSetScore(score)
             };
-
             context.Attempts.Add(attempt);
             context.SaveChanges();
-            var hall = new Hall(_friend, _mockContenderGenerator.Object);
-            var princess = new Princess(hall, _friend, _lifetime.Object, context);
-            hall.LoadContendersList(1, context);
-            princess.FindHusband();
-            princess.GetHappiness().Should().Be(20);
+            return context;
         }
 
+        /// <summary>
+        /// Create a list of 100 contenders
+        /// Starts with contender with score 100, so no one will be chosen
+        /// </summary>
+        /// <returns></returns>
         private static List<Contender> CreateContenderListForAlonePrincess()
         {
             var contenders = new List<Contender>();
@@ -85,10 +97,15 @@ namespace C_Sharp.Tests
                     Score = i
                 });
             }
-
             return contenders;
         }
-
+        /// <summary>
+        /// Create a list of 100 contenders.
+        /// This list constructed so princess chooses a contender with
+        /// particular score.
+        /// </summary>
+        /// <param name="score">Score of husband</param>
+        /// <returns>List of contenders for test</returns>
         private static List<Contender> CreateContenderListToChooseHusbandWithSetScore(int score)
         {
             //Princess skips first 100/e contenders
@@ -102,7 +119,7 @@ namespace C_Sharp.Tests
                     Score = i
                 });
             }
-
+            //Princess will choose the next contender with score from param
             contenders.Add(new Contender()
             {
                 Name = "contender" + score,

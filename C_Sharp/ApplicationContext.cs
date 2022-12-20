@@ -2,6 +2,9 @@
 
 namespace C_Sharp;
 
+/// <summary>
+/// DB Context with list of attempts
+/// </summary>
 public class ApplicationContext : DbContext
 {
     public ApplicationContext()

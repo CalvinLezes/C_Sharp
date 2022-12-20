@@ -6,7 +6,7 @@
     public class Contender
     {
         public int Id { get; set; }
-        
+
         /// <summary>
         /// Score of a contender (from 1 to 100)
         /// </summary>

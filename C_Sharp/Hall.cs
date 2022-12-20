@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using C_Sharp.Properties;
+using Microsoft.EntityFrameworkCore;
 
 namespace C_Sharp;
 
@@ -6,7 +7,7 @@ namespace C_Sharp;
 /// Hall, where all contestants wait for their turn, 
 /// and where they return after a date with the Princess 
 /// </summary>
-public class Hall: IHall
+public class Hall : IHall
 {
     /// <summary>
     /// List of contenders, who wait for their turn to meet the Princess
@@ -27,7 +28,7 @@ public class Hall: IHall
     /// Contender Generator creates list of contenders
     /// </summary>
     private readonly IContenderGenerator _contenderGenerator;
-    
+
     public Hall(IFriend friend, IContenderGenerator contenderGenerator)
     {
         _friend = friend;
@@ -54,16 +55,23 @@ public class Hall: IHall
         _nextContenderIndex = 0;
     }
 
-    public void LoadContendersList(int attemptId,ApplicationContext applicationContext)
+    /// <summary>
+    /// Load list of 100 contenders from DB by attempt id
+    /// </summary>
+    /// <param name="attemptId"></param>
+    /// <param name="applicationContext"></param>
+    /// <exception cref="Exception"></exception>
+    public void LoadContendersList(int attemptId, ApplicationContext applicationContext)
     {
         var attempt = applicationContext.Attempts.Include(a => a.Contenders)
             .FirstOrDefault(a => a.Id == attemptId);
-        _contenders = attempt.Contenders ?? throw new Exception($"Failed to load attempt with id {attemptId}");
+        _contenders = attempt.Contenders ??
+                      throw new Exception(string.Format(Resources.Failed_to_load_attempt_Exception_Massage, attemptId));
         _numberOfContenders = _contenders.Count;
         _nextContenderIndex = 0;
         _husband = null;
     }
-    
+
     /// <summary>
     /// Get the next contender's name to visit the Princess
     /// </summary>
@@ -110,7 +118,6 @@ public class Hall: IHall
     /// <returns>Husbands score, null if no husband</returns>
     public int? GetHusbandScore()
     {
-        return _husband?.Score; 
+        return _husband?.Score;
     }
-
 }

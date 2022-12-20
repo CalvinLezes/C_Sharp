@@ -126,4 +126,7 @@
   <data name="AvarageHappinessOutput" xml:space="preserve">
     <value>Avarage happines after 100 attempts is : {0}</value>
   </data>
+  <data name="Failed_to_load_attempt_Exception_Massage" xml:space="preserve">
+    <value>Failed to load attempt with id {0}</value>
+  </data>
 </root>

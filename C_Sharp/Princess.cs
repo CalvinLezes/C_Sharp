@@ -30,7 +30,7 @@ namespace C_Sharp
         /// </summary>
         private readonly List<string> _namesOfVisited = new();
 
-        IHostApplicationLifetime _lifeTime;
+        private readonly IHostApplicationLifetime _lifeTime;
 
         /// <summary>
         /// DBContext to access attempts database
@@ -51,7 +51,7 @@ namespace C_Sharp
         /// </summary>
         /// <param name="contenderName"></param>
         /// <returns>True if she marries this contender, false if not</returns>
-        public void HaveADate(string contenderName)
+        private void HaveADate(string contenderName)
         {
             //Princess asks friend to compare current contender with everyone she already met
             //If he is the best, she decides to marry him
@@ -96,41 +96,20 @@ namespace C_Sharp
             const int firstContenderScore = 100;
             const int thirdContenderScore = 98;
             const int fifthContenderScore = 96;
-            const int happinessIfFirstContenderChosen = 20;
-            const int happinessIfThirdContenderChosen = 50;
-            const int happinessIfFifthContenderChosen = 100;
+            const int happinessIfBestContenderChosen = 100;
+            const int happinessIfSecondBestContenderChosen = 50;
+            const int happinessIfThirdBestContenderChosen = 20;
             const int happinessIfOtherContenderChosen = 0;
             //If the Princess didn't choose a husband, her happiness score is 10
             const int happinessIfNoContenderChosen = 10;
             return score switch
             {
                 null => happinessIfNoContenderChosen,
-                firstContenderScore => happinessIfFirstContenderChosen,
-                thirdContenderScore => happinessIfThirdContenderChosen,
-                fifthContenderScore => happinessIfFifthContenderChosen,
+                firstContenderScore => happinessIfThirdBestContenderChosen,
+                thirdContenderScore => happinessIfSecondBestContenderChosen,
+                fifthContenderScore => happinessIfBestContenderChosen,
                 _ => happinessIfOtherContenderChosen
             };
-        }
-
-        /// <summary>
-        /// Print result of finding husband
-        /// </summary>
-        public void PrintResult()
-        {
-            using StreamWriter file = new("result.txt");
-            file.WriteLine($"Princess had {_namesOfVisited.Count} dates:");
-            foreach (var contender in _namesOfVisited)
-            {
-                file.WriteLine(contender);
-            }
-
-            var happiness = GetHappiness();
-            if (_iAmSingle)
-            {
-                file.WriteLine("\nPrincess didn't choose a husband");
-            }
-
-            file.WriteLine($"\nHow happy is the princess: {happiness}");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

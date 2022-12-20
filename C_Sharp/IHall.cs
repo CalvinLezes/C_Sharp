@@ -41,5 +41,4 @@ public interface IHall
     /// </summary>
     /// <returns>Husband's score, null if no husband</returns>
     public int? GetHusbandScore();
-
 }
