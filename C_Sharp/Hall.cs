@@ -1,10 +1,13 @@
-﻿namespace C_Sharp;
+﻿using C_Sharp.Properties;
+using Microsoft.EntityFrameworkCore;
+
+namespace C_Sharp;
 
 /// <summary>
 /// Hall, where all contestants wait for their turn, 
 /// and where they return after a date with the Princess 
 /// </summary>
-public class Hall: IHall
+public class Hall : IHall
 {
     /// <summary>
     /// List of contenders, who wait for their turn to meet the Princess
@@ -49,6 +52,24 @@ public class Hall: IHall
     {
         _contenders = _contenderGenerator.CreateContendersList();
         _numberOfContenders = _contenders.Count;
+        _nextContenderIndex = 0;
+    }
+
+    /// <summary>
+    /// Load list of 100 contenders from DB by attempt id
+    /// </summary>
+    /// <param name="attemptId"></param>
+    /// <param name="applicationContext"></param>
+    /// <exception cref="Exception"></exception>
+    public void LoadContendersList(int attemptId, ApplicationContext applicationContext)
+    {
+        var attempt = applicationContext.Attempts.Include(a => a.Contenders)
+            .FirstOrDefault(a => a.Id == attemptId);
+        _contenders = attempt.Contenders ??
+                      throw new Exception(string.Format(Resources.Failed_to_load_attempt_Exception_Massage, attemptId));
+        _numberOfContenders = _contenders.Count;
+        _nextContenderIndex = 0;
+        _husband = null;
     }
 
     /// <summary>
@@ -97,6 +118,6 @@ public class Hall: IHall
     /// <returns>Husbands score, null if no husband</returns>
     public int? GetHusbandScore()
     {
-        return _husband?.Score; 
+        return _husband?.Score;
     }
 }

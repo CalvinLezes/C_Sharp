@@ -1,12 +1,14 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using C_Sharp.Properties;
+using Microsoft.Extensions.Hosting;
 
 namespace C_Sharp
 {
     /// <summary>
     /// Princess who is trying to find a husband.
     /// She will go on a dates with some contenders and will have to choose one.
+    /// Loads 100 attempts from db and counts average happiness
     /// </summary>
-    public class Princess: IHostedService
+    public class Princess : IHostedService
     {
         /// <summary>
         /// If the Princess still single or not
@@ -28,13 +30,20 @@ namespace C_Sharp
         /// </summary>
         private readonly List<string> _namesOfVisited = new();
 
-        IHostApplicationLifetime _lifeTime;
+        private readonly IHostApplicationLifetime _lifeTime;
 
-        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime)
+        /// <summary>
+        /// DBContext to access attempts database
+        /// </summary>
+        private readonly ApplicationContext _applicationContext;
+
+        public Princess(IHall hall, IFriend friend, IHostApplicationLifetime lifeTime,
+            ApplicationContext applicationContext)
         {
             _hall = hall;
             _friend = friend;
             _lifeTime = lifeTime;
+            _applicationContext = applicationContext;
         }
 
         /// <summary>
@@ -42,7 +51,7 @@ namespace C_Sharp
         /// </summary>
         /// <param name="contenderName"></param>
         /// <returns>True if she marries this contender, false if not</returns>
-        public void HaveADate(string contenderName)
+        private void HaveADate(string contenderName)
         {
             //Princess asks friend to compare current contender with everyone she already met
             //If he is the best, she decides to marry him
@@ -59,6 +68,7 @@ namespace C_Sharp
         /// </summary>
         public void FindHusband()
         {
+            _iAmSingle = true;
             //Princess skips first 100/e contenders
             const int numberOfContendersToSkip = 36;
             var numberOfDates = 0;
@@ -67,10 +77,11 @@ namespace C_Sharp
                 var contenderName = _hall.GetNextContenderName();
                 _namesOfVisited.Add(contenderName);
                 _hall.AddContenderInVisited();
-                if (numberOfDates > numberOfContendersToSkip) 
+                if (numberOfDates > numberOfContendersToSkip)
                 {
                     HaveADate(contenderName);
                 }
+
                 numberOfDates++;
             }
         }
@@ -82,39 +93,23 @@ namespace C_Sharp
         public int GetHappiness()
         {
             var score = _hall.GetHusbandScore();
+            const int firstContenderScore = 100;
+            const int thirdContenderScore = 98;
+            const int fifthContenderScore = 96;
+            const int happinessIfBestContenderChosen = 100;
+            const int happinessIfSecondBestContenderChosen = 50;
+            const int happinessIfThirdBestContenderChosen = 20;
+            const int happinessIfOtherContenderChosen = 0;
             //If the Princess didn't choose a husband, her happiness score is 10
-            const int happinessIfPrincessDintChooseAnybody = 10;
-            //If princess chose contender with score less then 51, her happiness is 0
-            const int scoreBelowWhichPrincessIsUnhappy = 51;
-            const int happinessIfPrincessMadeABadChoice = 0;
-            if (score == null)
+            const int happinessIfNoContenderChosen = 10;
+            return score switch
             {
-                return happinessIfPrincessDintChooseAnybody;
-            }
-            if((int)score < scoreBelowWhichPrincessIsUnhappy)
-            {
-                return happinessIfPrincessMadeABadChoice;
-            }
-            return (int)score;
-        }
-
-        /// <summary>
-        /// Print result of finding husband
-        /// </summary>
-        public void PrintResult()
-        {
-            using StreamWriter file = new("result.txt");
-            file.WriteLine($"Princess had {_namesOfVisited.Count} dates:");
-            foreach (var contender in _namesOfVisited)
-            {
-                file.WriteLine(contender);
-            }
-            var happiness = GetHappiness();
-            if (_iAmSingle)
-            {
-                file.WriteLine("\nPrincess didn't choose a husband");
-            }
-            file.WriteLine($"\nHow happy is the princess: {happiness}");
+                null => happinessIfNoContenderChosen,
+                firstContenderScore => happinessIfThirdBestContenderChosen,
+                thirdContenderScore => happinessIfSecondBestContenderChosen,
+                fifthContenderScore => happinessIfBestContenderChosen,
+                _ => happinessIfOtherContenderChosen
+            };
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -125,9 +120,18 @@ namespace C_Sharp
 
         public void RunAsync()
         {
-            _hall.CreateContendersList();
-            FindHusband();
-            PrintResult();
+            const int numberOfAttempts = 100;
+            var totalHappiness = 0;
+            for (var i = 0; i < numberOfAttempts; i++)
+            {
+                _namesOfVisited.Clear();
+                _hall.LoadContendersList(i + 1, _applicationContext);
+                FindHusband();
+                totalHappiness += GetHappiness();
+            }
+
+            var averageHappiness = totalHappiness / numberOfAttempts;
+            Console.WriteLine(Resources.AvarageHappinessOutput, averageHappiness);
             _lifeTime.StopApplication();
         }
 

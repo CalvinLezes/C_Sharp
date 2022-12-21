@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C_Sharp", "C_Sharp\C_Sharp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C_Sharp.Tests", "C_Sharp.Tests\C_Sharp.Tests.csproj", "{CC50F19F-9360-4C3A-AA01-25A4BE28AAE6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttemptsGenerator", "AttemptsGenerator\AttemptsGenerator.csproj", "{F695671C-789B-4274-87CB-BCC6AF74263A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CC50F19F-9360-4C3A-AA01-25A4BE28AAE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC50F19F-9360-4C3A-AA01-25A4BE28AAE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC50F19F-9360-4C3A-AA01-25A4BE28AAE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F695671C-789B-4274-87CB-BCC6AF74263A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F695671C-789B-4274-87CB-BCC6AF74263A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F695671C-789B-4274-87CB-BCC6AF74263A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F695671C-789B-4274-87CB-BCC6AF74263A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,8 +7,8 @@ namespace C_Sharp.Tests
         private readonly List<Contender> _contenderList;
         public ContenderGeneratorTest()
         {
-            var contenderGeneator = new ContenderGenerator();
-            _contenderList = contenderGeneator.CreateContendersList();
+            var contenderGenerator = new ContenderGenerator();
+            _contenderList = contenderGenerator.CreateContendersList();
         }
 
         [Fact]

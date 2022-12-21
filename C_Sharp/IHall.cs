@@ -11,6 +11,8 @@ public interface IHall
     /// </summary>
     public void CreateContendersList();
 
+    public void LoadContendersList(int attemptId, ApplicationContext applicationContext);
+
     /// <summary>
     /// Get the next contender to visit the Princess and tell friend about it
     /// </summary>
